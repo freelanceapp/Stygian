@@ -4,18 +4,19 @@
     android:layout_height="fill_parent"
     android:fillViewport="true"
     android:overScrollMode="never"
-    android:scrollbars="none" >
+    android:scrollbars="none">
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/login_bg" >
+        android:background="@drawable/login_bg">
 
 
         <FrameLayout
             android:id="@+id/frameContainer"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" />
+
         <TextView
             android:id="@+id/close_activity"
             android:layout_width="wrap_content"
@@ -25,8 +26,8 @@
             android:layout_margin="4dp"
             android:padding="8dp"
             android:text="Skip"
-            android:textSize="16dp"
-            android:textColor="@color/colorWhite"/>
+            android:textColor="@color/colorWhite"
+            android:textSize="16dp" />
 
     </RelativeLayout>
 

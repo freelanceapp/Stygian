@@ -79,21 +79,31 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.MyViewHolder> 
 
         Picasso.with(context).load(productDetail.getImage()).placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).resize(300, 300).into(holder.pro_image_iv);
 
+        int qty = Integer.parseInt(holder.qty_tv.getText().toString());
+        if (qty > 1) {
+            holder.minus_iv.setImageResource(R.drawable.ic_minus);
+        } else {
+            holder.minus_iv.setImageResource(R.drawable.ic_delete);
+        }
+
         holder.plus_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 int qty = Integer.parseInt(holder.qty_tv.getText().toString());
                 qty++;
                 helperManager.updateCart(qty, list.get(position).getId());
                 holder.qty_tv.setText(qty + "");
                 ((CartFragment) fragment).setTotal();
+                if (qty > 1) {
+                    holder.minus_iv.setImageResource(R.drawable.ic_minus);
+                } else {
+                    holder.minus_iv.setImageResource(R.drawable.ic_delete);
+                }
             }
         });
         holder.minus_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 int qty = Integer.parseInt(holder.qty_tv.getText().toString());
                 if (qty == 1) {
                     helperManager.deletesingleCart(list.get(position));
@@ -106,6 +116,11 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.MyViewHolder> 
                     qty--;
                     helperManager.updateCart(qty, list.get(position).getId());
                     holder.qty_tv.setText(qty + "");
+                }
+                if (qty > 1) {
+                    holder.minus_iv.setImageResource(R.drawable.ic_minus);
+                } else {
+                    holder.minus_iv.setImageResource(R.drawable.ic_delete);
                 }
                 ((CartFragment) fragment).setTotal();
             }

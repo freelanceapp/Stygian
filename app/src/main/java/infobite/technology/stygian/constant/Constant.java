@@ -40,5 +40,4 @@ public class Constant {
     public static final String BANNER = "androidapi/banner.php";
     public static final String COUPON = "androidapi/coupon.php";
     public static final String COUTACT = "androidapi/contact.php";
-
 }
