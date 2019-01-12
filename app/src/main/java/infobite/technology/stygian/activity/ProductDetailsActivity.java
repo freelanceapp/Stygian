@@ -33,6 +33,7 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
+import com.androidnetworking.interfaces.StringRequestListener;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import org.json.JSONArray;
@@ -77,6 +78,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     ImageView viewBtn;
     RecyclerView recommendList;
     String report_id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +86,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
         SharedPreferences prefs = getSharedPreferences(mypreference, MODE_PRIVATE);
         cart_count = prefs.getInt("Cart_Number", 0); //0 is the default value.
-
         initXml();
         getData();
     }
@@ -123,7 +124,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         settings.setBuiltInZoomControls(true);
         settings.setDisplayZoomControls(false);
         product_detail1.setWebChromeClient(new WebChromeClient());
-        cart_number.setText(""+cart_count);
+        cart_number.setText("" + cart_count);
 
         viewBtn = findViewById(R.id.viewBtn);
         viewBtn.setOnClickListener(new View.OnClickListener() {
@@ -134,13 +135,12 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         });
 
 
-        for (int i = 0 ; i <related_ids.length() ; i++)
-        {
+        for (int i = 0; i < related_ids.length(); i++) {
             try {
-                Log.e("Recomments Product ", "..."+related_ids.get(i).toString());
+                Log.e("Recomments Product ", "..." + related_ids.get(i).toString());
                 report_id = related_ids.get(i).toString();
-                GetContacts getContacts = new GetContacts();
-                getContacts.execute();
+                getdata1();
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -154,8 +154,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         float price = Float.parseFloat(productDetail.getPrice());
         float round_pr = Math.round(price);
         w_details = productDetail.getDescription();
-        Log.e("Product ","Detail "+ w_details);
-        product_detail1.loadDataWithBaseURL(null, w_details,"text/html", "UTF-8", null);
+        Log.e("Product ", "Detail " + w_details);
+        product_detail1.loadDataWithBaseURL(null, w_details, "text/html", "UTF-8", null);
         price_tv.setText("₹ " + round_pr);
         getAttibute(productDetail.getAttributes_array());
         init(productDetail.getImages_array());
@@ -301,6 +301,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
             }
         }
     }
+
     private void addtoCart() {
         ProductDetail productDetail = getIntent().getExtras().getParcelable("data");
         cart_id_list = helperManager.readAllCartID();
@@ -320,7 +321,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
             }
         }
     }
-    public void showDialog(){
+
+    public void showDialog() {
         final Dialog dialog = new Dialog(ctx);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
@@ -358,57 +360,58 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     }
 
 
-    /**
-     * Async task class to get json by making HTTP call
-     */
-    private class GetContacts extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            // Showing progress dialog
-        }
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            HttpHandler sh = new HttpHandler();
-            // Making a request to url and getting response
-            String jsonStr = sh.makeServiceCall("https://stygianstore.com/wp-json/wc/v3/products/"+report_id);
-            Log.e(TAG, "Response from url: " + jsonStr);
-            if (jsonStr != null) {
-                Log.e(TAG, "Json not empity " );
-                try {
-                    //converting response to json object
-                    JSONObject obj = new JSONObject(jsonStr);
-                    Log.e("Massage",obj.getString("message"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                Log.e(TAG, "Couldn't get json from server.");
-                runOnUiThread(new Runnable() {
+    public void getdata1() {
+        //Utility.showLoader(ctx);
+        AndroidNetworking.get("https://stygianstore.com/wp-json/wc/v3/products/"+report_id)
+                .setTag("test")
+                .setPriority(Priority.MEDIUM)
+                .build()
+                .getAsString(new StringRequestListener() {
                     @Override
-                    public void run() {
-                        Toast.makeText(ctx, "Couldn't get json from server. Check LogCat for possible errors!", Toast.LENGTH_LONG).show();
+                    public void onResponse(String response) {
+                        //Utility.hideLoader();
+                        setResponse(response);
+                    }
+                    @Override
+                    public void onError(ANError anError) {
+                        //Utility.hideLoader();
+                        Utility.toastView(ctx, anError.toString());
                     }
                 });
-            }
-            return null;
-        }
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            // Dismiss the progress dialog
+    }
 
+    private void setResponse(String response) {
+        try {
+            JSONObject object = new JSONObject(response);
+            String id = object.getString("id");
+            String name = object.getString("name");
+            float price = object.getLong("price");
+            int roundprice = Math.round(price);
+            String reg_price = object.getString("regular_price");
+            String sale_price = object.getString("sale_price");
+            String html_price = object.getString("price_html");
+            String description = object.getString("description");
+            JSONArray image_array = object.getJSONArray("images");
+            related_ids = object.getJSONArray("related_ids");
+            Log.e("name","..."+name);
+            String image = "";
+            if (image_array.length() > 0) {
+                JSONObject objectimg = image_array.getJSONObject(0);
+                image = objectimg.getString("src");
+            }
+            JSONArray attri_array = object.getJSONArray("attributes");
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
 
-    private void setAdapter(ArrayList<ProductDetail> list, int pos) {
+    private void setAdapter(ArrayList<ProductDetail> list) {
         ProductAdapter adapter = new ProductAdapter(list, ctx);
         GridLayoutManager layoutManager = new GridLayoutManager(ctx, 2);
         recommendList.setLayoutManager(layoutManager);
         recommendList.setItemAnimator(new DefaultItemAnimator());
         recommendList.setAdapter(adapter);
-        recommendList.scrollToPosition(pos);
     }
 
 

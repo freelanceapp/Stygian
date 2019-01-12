@@ -177,12 +177,13 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
             CartFragment fragment = new CartFragment(ctx, this);
             Utility.setFragment(fragment, ctx, Constant.CART);
             slidingRootNav.closeMenu();
-
         } else if (position == NAV_MYACCOUNT) {
-
             if (AppPreference.getBooleanPreference(ctx, Constant.IS_LOGIN_SKIP)) {
-                Toast.makeText(ctx, "Please login first for access account functionality!!!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ctx, "Please login first for access account functionality!!!", Toast.LENGTH_SHORT).show();
                 slidingRootNav.closeMenu();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
             } else {
                 MyProfileFragment fragment = new MyProfileFragment(ctx);
                 tooltext_tv.setText(Constant.MY_PROFILE);

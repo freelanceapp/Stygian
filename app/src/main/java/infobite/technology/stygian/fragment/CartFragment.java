@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import infobite.technology.stygian.R;
 import infobite.technology.stygian.activity.CheckOutActivity;
+import infobite.technology.stygian.activity.LoginActivity;
 import infobite.technology.stygian.activity.MainActivity;
 import infobite.technology.stygian.adapter.AdapterCart;
 import infobite.technology.stygian.database.HelperManager;
@@ -117,7 +118,9 @@ public class CartFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.bt_wishlist_placeorder:
                 if (AppPreference.getBooleanPreference(ctx, Constant.IS_LOGIN_SKIP)) {
-                    Toast.makeText(ctx, "Please Login first !!!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ctx, "Please Login first !!!", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(ctx, LoginActivity.class));
+                    getActivity().finish();
                 } else {
                     ArrayList<ProductDetail> cartlist = helperManager.readAllCart();
                     if (cartlist.size() > 0) {
