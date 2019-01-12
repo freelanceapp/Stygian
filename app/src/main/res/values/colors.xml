@@ -1,0 +1,49 @@
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="color_sign_up">#f51f0166</color>
+    <color name="color_log_in">#eff10783</color>
+
+    <color name="color_logo_sign_up">#d1bdff</color>
+    <color name="color_logo_log_in">#fdbbde</color>
+
+    <color name="white_trans">#b3fffcfc</color>
+    <color name="color_text">#fafafa</color>
+
+    <color name="color_input_hint">#FFF</color>
+    <color name="color_text_highlight">#fafafa</color>
+
+
+    <color name="colorBlue">#28a0f1</color>
+    <color name="colorGrey">#ff311a</color>
+    <color name="colorWhite">#ffffff</color>
+
+    <color name="colorLitghGray">#eceaea</color>
+    <color name="transprent">#83938f8f</color>
+    <color name="fulltransprent">#00000000</color>
+
+    <color name="colorRed">#b9292b</color>
+    <color name="colortransBlue">#7708d2ae</color>
+
+    <color name="background_color">#ff8375</color>
+    <color name="black">#000000</color>
+    <color name="white_greyish">#EEEEEE</color>
+    <color name="button_selectorcolor">#b35b5555</color>
+    <color name="login_trans1">#a61e1d1d</color>
+    <color name="login_trans2">#87e7e0e0</color>
+    <color name="login_trans3">#87706b6b</color>
+
+
+    <color name="notification_color">#0288d1</color>
+    <color name="textColorPrimary">#353434</color>
+    <color name="textColorSecondary">#757575</color>
+    <color name="navfun">#FF6666</color>
+    <color name="dal_white">#d6d6d6</color>
+
+    // my color
+    <color name="light_grey">#dedfde</color>
+
+
+</resources>

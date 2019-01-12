@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_prodetails_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+    <com.viewpagerindicator.CirclePageIndicator
+        android:id="@+id/ci_prodetails_circle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="bottom"
+        android:padding="10dip"
+        app:centered="true"
+        app:fillColor="#848484"
+        app:pageColor="#0a0909"
+        app:snap="false" />
+
+    <ImageView
+        android:layout_width="40sp"
+        android:layout_height="40dp"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:layout_alignParentRight="true"
+        android:layout_margin="4dp"
+        android:tint="@color/black"
+        android:id="@+id/closeBtn"/>
+</RelativeLayout>

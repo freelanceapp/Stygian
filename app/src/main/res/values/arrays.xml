@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="ld_activityScreenTitles">
+        <item>Home</item>
+        <item>MEN</item>
+        <item>WOMEN</item>
+        <item>KIDS</item>
+        <item>HOME APPLIANCES</item>
+        <item>Wish List</item>
+        <item>CART</item>
+        <item>My Account</item>
+        <item>POLICY</item>
+        <item>Exit</item>
+    </string-array>
+
+    <array name="ld_activityScreenIcons">
+        <item>@mipmap/ic_launcher</item>
+        <item>@mipmap/ic_launcher</item>
+        <item>@mipmap/ic_launcher</item>
+        <item>@mipmap/ic_launcher</item>
+        <item>@mipmap/ic_launcher</item>
+        <item>@mipmap/ic_launcher</item>
+        <item>@mipmap/ic_launcher</item>
+        <item>@mipmap/ic_launcher</item>
+        <item>@mipmap/ic_launcher</item>
+        <item>@mipmap/ic_launcher</item>
+
+    </array>
+
+</resources>

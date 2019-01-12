@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ProductsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/toolback"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_products_back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:src="@drawable/back" />
+
+            <TextView
+                android:id="@+id/tv_products_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical"
+                android:text="Men"
+                android:textColor="@color/colorWhite"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/x_attribute_bg"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_products_search"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:backgroundTint="@color/fulltransprent"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:textSize="12dp" />
+
+            <ImageView
+                android:id="@+id/iv_products_search"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:padding="5dp"
+                android:src="@drawable/search" />
+
+            <ImageView
+                android:id="@+id/iv_products_searchcancel"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:padding="5dp"
+                android:src="@drawable/close"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_products_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"></android.support.v7.widget.RecyclerView>
+
+        <Button
+            android:id="@+id/bt_products_loadmore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/login_trans1"
+            android:text="Load More Product"
+            android:textColor="@color/colorWhite" />
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

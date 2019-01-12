@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.date.vibe.vibedating1.PayPal.ConfirmationActivity">
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20sp"
+        app:cardCornerRadius="5sp"
+        app:cardElevation="5dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="180sp"
+                android:id="@+id/confirm_img"
+                android:layout_margin="10sp"
+                android:padding="5sp"
+                android:src="@drawable/logo"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/confirm_img"
+            android:layout_marginTop="20sp"
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Payment Amount : "
+                    android:layout_margin="5dp" />
+                <TextView
+                    android:id="@+id/paymentAmount"
+                    android:layout_width="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Status : "
+                    android:layout_margin="5dp"/>
+                <TextView
+                    android:id="@+id/paymentStatus"
+                    android:layout_width="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_margin="5dp"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Payment Id : "
+                    android:layout_margin="5dp"/>
+                <TextView
+                    android:id="@+id/paymentId"
+                    android:textStyle="bold"
+                    android:singleLine="false"
+                    android:layout_margin="5dp"
+                    android:text="dcfm vm wemn wv;lkm wedc;lkm qc;lkm ;lk l;kmansdc dsvmc "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="3" />
+            </LinearLayout>
+        </LinearLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:text="Done"
+                android:textStyle="bold"
+                android:id="@+id/confirm_btn"
+                android:layout_marginBottom="20sp"
+                android:background="@drawable/toolback"
+                android:textColor="@color/colorWhite"/>
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>

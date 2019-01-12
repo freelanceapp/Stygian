@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/login_trans1"
+        android:padding="10dp"
+        android:text="Pay Via"
+        android:textColor="@color/colorWhite"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_dialogpay_online"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:padding="10dp"
+        android:text="Debit Card/ Credit Card / Net Banking"
+        android:textColor="@color/black"
+        android:textSize="16dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white_greyish" />
+
+    <TextView
+        android:id="@+id/tv_dialogpay_cod"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:padding="10dp"
+        android:text="Cash On Delivery"
+        android:textColor="@color/black"
+        android:textSize="18dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white_greyish" />
+
+    <Button
+        android:id="@+id/bt_dialogpay_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:text="Cancel"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold" />
+
+</LinearLayout>

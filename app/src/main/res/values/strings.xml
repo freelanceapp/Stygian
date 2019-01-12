@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">Stygian</string>
+
+    <string name="sign_up_label">Sign Up</string>
+    <string name="log_in_label">Log In</string>
+
+    <string name="sign_up_or_label"> Sign Up </string>
+    <string name="log_in_or_label"> Log In </string>
+
+    <string name="password_hint">Password</string>
+    <string name="email_hint">Email</string>
+    <string name="confirm_hint">Confirm Password</string>
+
+    <string name="or"> Or </string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="email">Email Id</string>
+    <string name="passowrd">Password</string>
+    <string name="login">LOGIN</string>
+    <string name="show_pwd">Show Password</string>
+    <string name="hide_pwd">Hide Password</string>
+    <string name="forgot">Forgot password?</string>
+    <string name="closebutton">Close Button for Activity</string>
+    <string name="newUser">Not a Member yet? Sign Up here.</string>
+    <string name="fullName">Full Name</string>
+    <string name="mobileNumber">Mobile Number</string>
+    <string name="location">Location</string>
+    <string name="confirmPassword">Confirm Password</string>
+    <string name="terms_conditions">By clicking SignUp you agree all the Terms and Conditions.</string>
+    <string name="signUp">SIGN UP</string>
+    <string name="already_user">Already have Account? Login here.</string>
+    <string name="registered_emailid">Please enter your Registered Email Id below:</string>
+    <string name="submit">SUBMIT</string>
+    <string name="back">BACK</string>
+    <string name="log_out_user">Log out user</string>
+
+    <!--toast message-->
+    <string name="no_internet">No internet connection</string>
+    <string name="something">Something went wrong please try again later</string>
+    <string name="policy1">Thank you for your purchase. We hope you are happy with your purchase. However, if you are not completely satisfied with your purchase for any reason, you may return it to us for a full refund or credit or an exchange only. Please see below for more information on our return and refund policy.</string>
+    <string name="policy2">The following is the return policy as applicable to all items sold on www.stygianstore.com.</string>
+    <string name="policy3">1. In general, an item may be eligible for return within 7 days of the purchase date. The product can be returned if it fulfils one or more of the following conditions: Was delivered in a physically damaged condition. Has missing parts or accessories. Is different from what was ordered. Is different from its description on the product detail page on website. Products marked as non-returnable on the product detail page cannot be returned. 2. All items must be returned in their original condition, with price tags intact, user manual, warranty cards, original accessories and in the original manufacturer’s box/packaging as delivered to you. We may reject the return pickup or reject the returned item if the items are not returned according to the policy mentioned or the item is not in a saleable condition. 3. If you wish to return an electronic device that stores any personal information, please ensure that you have removed all such personal information from the device prior to returning. The Company or the marketplace shall not be liable in any manner for any misuse or usage of such information. 4. In some cases, items may not be eligible for return, including cases of buyer\'s remorse such as incorrect model or colour of product ordered or incorrect product ordered. 5. Some of the goods available on the website may have a different return and refund policy which shall be applicable only for the product where such policy is specifically mentioned. In that case, this general policy will not be applicable to such products or class or products.</string>
+    <string name="policy4">To return an item, initiate the return process by sending an email to the customer service at __________________________ [email address] to confirm about the goods to be returned. After receiving the confirmation of the return, place the item securely in its original packaging and include your proof of Purchase /and the return form provided (If any). A representative from the Shipping partner of the company or seller will come and inspect the conditions on which the return can be executed and if all the conditions are met he will take the item back and will issue the Goods Return slip which shall be the proof that the goods has been returned and delivered to the seller. In no case, the return shall be processed by Stygianstore.com, but we will only be assisting in the whole process. The return shall be processed by the seller of the product.</string>
+    <string name="policy5">In any case where a refund is required, the sellers need to authorise that refund. Stygianstore.com can assist in facilitating refunds for you only when the seller notifies us of the receipt of the item. Generally, the seller will process the refund within 7 days from the receipt of the product by the seller. Once the seller notifies us of the receipt of the return item, the following timelines apply for the amount to be credited.</string>
+    <string name="policy7">In Rare circumstances, there may be delay in crediting of the refund amount even after it being processed by the seller’s bank. In such case, you may have to contact your bank for crediting the same to your account. The products which are categorized “nonreturnable”, no request for its refund or return or exchange will be taken unless the conditions mentioned in Clause 1 of the return policy is applicable.</string>
+    <string name="location1">India 15-40 \n Business days \nUnited States 10-30 Business days \nCanada, Europe 10-30 Business days \nAustralia, New Zealand 10-30 Business days \nMexico, Central America, South America 15-30 Business days \nMax delivery time – 45 business days.</string>
+</resources>
