@@ -134,6 +134,14 @@ India 5-10 Business Days " />
                 android:layout_height="wrap_content"
                 android:id="@+id/recommendList"
                 android:layout_marginTop="6sp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="More..."
+                android:id="@+id/moreBtn"
+                android:textSize="16sp"
+                android:padding="8sp"
+                android:layout_marginBottom="20dp"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

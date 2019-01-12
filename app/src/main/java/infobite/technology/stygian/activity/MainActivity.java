@@ -69,14 +69,15 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SharedPreferences prefs = getSharedPreferences(mypreference, MODE_PRIVATE);
-        cart_count = prefs.getInt("Cart_Number", 0); //0 is the default value.
+
         initXml(savedInstanceState);
         setHomePage();
     }
 
     private void initXml(Bundle savedInstanceState) {
         ctx = this;
+        SharedPreferences prefs = getSharedPreferences(mypreference, MODE_PRIVATE);
+        cart_count = prefs.getInt("Cart_Number", 0); //0 is the default value.
         cart_btn = findViewById(R.id.cart_btn);
         logo_iv = findViewById(R.id.iv_main_logo);
         cart_number = findViewById(R.id.cart_number);

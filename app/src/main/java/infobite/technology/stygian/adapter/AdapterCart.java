@@ -1,6 +1,7 @@
 package infobite.technology.stygian.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,6 +18,10 @@ import infobite.technology.stygian.R;
 import infobite.technology.stygian.database.HelperManager;
 import infobite.technology.stygian.fragment.CartFragment;
 import infobite.technology.stygian.model.ProductDetail;
+
+import static android.content.Context.MODE_PRIVATE;
+import static infobite.technology.stygian.activity.MainActivity.cart_count;
+import static infobite.technology.stygian.activity.SplashActivity.mypreference;
 
 
 public class AdapterCart extends RecyclerView.Adapter<AdapterCart.MyViewHolder> {
@@ -94,6 +99,9 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.MyViewHolder> 
                     helperManager.deletesingleCart(list.get(position));
                     list.remove(position);
                     notifyDataSetChanged();
+                    SharedPreferences.Editor editor = context.getSharedPreferences(mypreference, MODE_PRIVATE).edit();
+                    editor.putInt("Cart_Number", cart_count);
+                    editor.apply();
                 } else {
                     qty--;
                     helperManager.updateCart(qty, list.get(position).getId());

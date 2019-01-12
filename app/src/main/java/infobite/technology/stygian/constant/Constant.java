@@ -6,7 +6,7 @@ public class Constant {
     /*http://grabbuddy.in/androidapi/category-wise-product.php?category_id=1*/
     public static final String BASE_URL = "https://grabbuddy.in/";
     public static final String SIGNUP = "androidapi/register.php?";
-    public static final String ALL_CATEGORY = "https://stygianstore.com/wp-json/wc/v3/products/";
+    public static final String ALL_BANNER = "https://stygianstore.com/stygian/bannerapi.php";
     public static final String CATEGORY_WISE = "androidapi/category-wise-product.php?";
     public static final String COMPANY_WISE = "androidapi/company-wise-product.php?";
     public static final String TODAY_DEAL = "androidapi/today-deal.php";

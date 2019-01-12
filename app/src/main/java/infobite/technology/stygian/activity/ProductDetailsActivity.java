@@ -62,7 +62,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
     Context ctx;
     ImageView back_iv, cart_iv;
-    TextView title_tv, name_tv, price_tv, select_col, select_size, size_tv, color_tv, cart_number;
+    TextView title_tv, name_tv, price_tv, select_col, select_size, size_tv, color_tv, cart_number, moreBtn;
     Button wishlist_bt, addcart_bt;
     RadioGroup color_radiogroup, size_radiogroup;
     CirclePageIndicator indicator;
@@ -92,6 +92,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
     private void initXml() {
         ctx = this;
+        list = new ArrayList<>();
         back_iv = findViewById(R.id.iv_prodetails_back);
         cart_number = findViewById(R.id.cart_number);
         cart_iv = findViewById(R.id.iv_prodetails_cart);
@@ -110,6 +111,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         size_radiogroup = findViewById(R.id.rg_selectsize);
         product_detail1 = findViewById(R.id.product_detail);
         recommendList = findViewById(R.id.recommendList);
+        moreBtn = findViewById(R.id.moreBtn);
+        moreBtn.setOnClickListener(this);
         helperManager = new HelperManager(ctx);
         back_iv.setOnClickListener(this);
         wishlist_bt.setOnClickListener(this);
@@ -286,6 +289,11 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 startActivity(new Intent(ctx, MainActivity.class)
                         .putExtra("type", Constant.CART));
                 break;
+            case R.id.moreBtn :
+                Intent intent = new Intent(ProductDetailsActivity.this,MainActivity.class);
+                startActivity(intent);
+                finish();
+                break;
         }
     }
 
@@ -314,10 +322,10 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
             if (insert) {
                 Utility.toastView(ctx, "Add to Cart");
                 cart_count = cart_count + 1;
-                cart_number.setText("" + cart_count);
                 SharedPreferences.Editor editor = getSharedPreferences(mypreference, MODE_PRIVATE).edit();
                 editor.putInt("Cart_Number", cart_count);
                 editor.apply();
+                cart_number.setText("" + cart_count);
             }
         }
     }
@@ -400,6 +408,12 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 image = objectimg.getString("src");
             }
             JSONArray attri_array = object.getJSONArray("attributes");
+            list.add(new ProductDetail(id, name, description, String.valueOf(roundprice), reg_price,
+                    sale_price, html_price, image, image_array.toString(), attri_array.toString(), 1));
+
+            if (list.size() > 0) {
+                setAdapter(list);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
