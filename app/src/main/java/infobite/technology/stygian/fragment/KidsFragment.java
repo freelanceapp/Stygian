@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import static infobite.technology.stygian.fragment.MensFragment.related_ids;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
@@ -109,6 +110,7 @@ public class KidsFragment extends Fragment implements View.OnClickListener {
                     String html_price = object.getString("price_html");
                     String description = object.getString("description");
                     JSONArray image_array = object.getJSONArray("images");
+                    related_ids = object.getJSONArray("related_ids");
                     String image = "";
                     if (image_array.length() > 0) {
                         JSONObject objectimg = image_array.getJSONObject(0);

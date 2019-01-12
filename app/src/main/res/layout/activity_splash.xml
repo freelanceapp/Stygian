@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="infobite.technology.stygian.activity.SplashActivity"
-    android:background="@color/colorWhite">
+    android:background="@color/colorWhite"
+    tools:context="infobite.technology.stygian.activity.SplashActivity">
 
     <ImageView
         android:layout_width="250sp"
         android:layout_height="250sp"
-        android:src="@drawable/logo"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        android:src="@drawable/splash_icon" />
 
 </RelativeLayout>

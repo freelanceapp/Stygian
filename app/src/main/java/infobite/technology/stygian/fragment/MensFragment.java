@@ -45,7 +45,7 @@ public class MensFragment extends Fragment implements View.OnClickListener {
     String api = "";
 
     ArrayList<ProductDetail> list;
-
+    public static JSONArray related_ids;
     @SuppressLint("ValidFragment")
     public MensFragment() {
     }
@@ -111,8 +111,7 @@ public class MensFragment extends Fragment implements View.OnClickListener {
                     String html_price = object.getString("price_html");
                     String description = object.getString("description");
                     JSONArray image_array = object.getJSONArray("images");
-                    JSONObject related_ids = object.getJSONObject("related_ids");
-                    Log.e("Related Id",".."+related_ids.toString());
+                    related_ids = object.getJSONArray("related_ids");
                     String image = "";
                     if (image_array.length() > 0) {
                         JSONObject objectimg = image_array.getJSONObject(0);

@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import infobite.technology.stygian.R;
+import infobite.technology.stygian.util.AppPreference;
 import infobite.technology.stygian.util.Constant;
 import infobite.technology.stygian.fragment.Login_Fragment;
 import infobite.technology.stygian.util.SessionManager;
@@ -35,14 +36,10 @@ public class LoginActivity extends AppCompatActivity {
 
         // On close icon click finish activity
         findViewById(R.id.close_activity).setOnClickListener(
-                new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View arg0) {
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-
-                    }
+                arg0 -> {
+                    AppPreference.setBooleanPreference(getApplicationContext(), Constant.IS_LOGIN_SKIP, true);
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
                 });
 
     }

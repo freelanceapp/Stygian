@@ -5,38 +5,40 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import infobite.technology.stygian.R;
-import infobite.technology.stygian.fragment.HomeFragment;
-import infobite.technology.stygian.fragment.MainFragment;
-import infobite.technology.stygian.fragment.CartFragment;
-import infobite.technology.stygian.fragment.MyProfileFragment;
-import infobite.technology.stygian.fragment.WishlistFragment;
-import infobite.technology.stygian.menu.DrawerAdapter;
-import infobite.technology.stygian.menu.DrawerItem;
-import infobite.technology.stygian.menu.SimpleItem;
-import infobite.technology.stygian.util.Constant;
-import infobite.technology.stygian.util.SessionManager;
-import infobite.technology.stygian.util.Utility;
-import infobite.technology.stygian.util.WebApi;
+import android.widget.Toast;
 
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
 import java.util.Arrays;
+
+import infobite.technology.stygian.R;
+import infobite.technology.stygian.fragment.CartFragment;
+import infobite.technology.stygian.fragment.HomeFragment;
+import infobite.technology.stygian.fragment.MainFragment;
+import infobite.technology.stygian.fragment.MyProfileFragment;
+import infobite.technology.stygian.fragment.WishlistFragment;
+import infobite.technology.stygian.menu.DrawerAdapter;
+import infobite.technology.stygian.menu.DrawerItem;
+import infobite.technology.stygian.menu.SimpleItem;
+import infobite.technology.stygian.util.AppPreference;
+import infobite.technology.stygian.util.Constant;
+import infobite.technology.stygian.util.SessionManager;
+import infobite.technology.stygian.util.Utility;
+import infobite.technology.stygian.util.WebApi;
 
 import static infobite.technology.stygian.activity.SplashActivity.mypreference;
 
@@ -82,8 +84,8 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
         cart_number = findViewById(R.id.cart_number);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         tooltext_tv = (TextView) findViewById(R.id.tooltext);
-        search_btn = (ImageView)findViewById(R.id.search_btn);
-        cart_number.setText(""+cart_count);
+        search_btn = (ImageView) findViewById(R.id.search_btn);
+        cart_number.setText("" + cart_count);
         search_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -176,21 +178,26 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
             Utility.setFragment(fragment, ctx, Constant.CART);
             slidingRootNav.closeMenu();
 
-        }  else if (position == NAV_MYACCOUNT) {
-            MyProfileFragment fragment = new MyProfileFragment(ctx);
-            tooltext_tv.setText(Constant.MY_PROFILE);
-            Utility.setFragment(fragment, ctx, Constant.WISHLIST);
-            slidingRootNav.closeMenu();
+        } else if (position == NAV_MYACCOUNT) {
 
+            if (AppPreference.getBooleanPreference(ctx, Constant.IS_LOGIN_SKIP)) {
+                Toast.makeText(ctx, "Please login first for access account functionality!!!", Toast.LENGTH_SHORT).show();
+                slidingRootNav.closeMenu();
+            } else {
+                MyProfileFragment fragment = new MyProfileFragment(ctx);
+                tooltext_tv.setText(Constant.MY_PROFILE);
+                Utility.setFragment(fragment, ctx, Constant.WISHLIST);
+                slidingRootNav.closeMenu();
+            }
         } else if (position == NAV_POLICY) {
             tooltext_tv.setText(Constant.POLICY);
            /* CartFragment fragment = new CartFragment(ctx, this);
             Utility.setFragment(fragment, ctx, Constant.CART);*/
-           Intent intent = new Intent(MainActivity.this,PolicyActivity.class);
-           startActivity(intent);
+            Intent intent = new Intent(MainActivity.this, PolicyActivity.class);
+            startActivity(intent);
             slidingRootNav.closeMenu();
 
-        }else if (position == NAV_EXIT) {
+        } else if (position == NAV_EXIT) {
             sessionManager.logoutUser(this);
         }
     }

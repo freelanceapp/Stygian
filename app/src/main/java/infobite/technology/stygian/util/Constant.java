@@ -33,4 +33,7 @@ public class Constant {
     public static final String ALL = "all";
 
     public static final String MY_ACCOUNT = "My Account";
+
+    /*Preference*/
+    public static final String IS_LOGIN_SKIP = "IS_LOGIN_SKIP";
 }

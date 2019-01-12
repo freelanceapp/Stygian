@@ -2,12 +2,17 @@ package infobite.technology.stygian.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +27,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import org.json.JSONArray;
@@ -32,17 +42,22 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import infobite.technology.stygian.R;
+import infobite.technology.stygian.adapter.ProductAdapter;
 import infobite.technology.stygian.adapter.SlidingImage_Adapter;
 import infobite.technology.stygian.database.HelperManager;
 import infobite.technology.stygian.model.ProductDetail;
+import infobite.technology.stygian.retrofit_provider.HttpHandler;
 import infobite.technology.stygian.util.Constant;
 import infobite.technology.stygian.util.Utility;
 import okhttp3.internal.Util;
 
+import static android.support.constraint.Constraints.TAG;
 import static infobite.technology.stygian.activity.SplashActivity.mypreference;
 import static infobite.technology.stygian.activity.MainActivity.cart_count;
+import static infobite.technology.stygian.fragment.MensFragment.related_ids;
 
 public class ProductDetailsActivity extends AppCompatActivity implements View.OnClickListener {
+    ArrayList<ProductDetail> list;
 
     Context ctx;
     ImageView back_iv, cart_iv;
@@ -60,6 +75,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     SharedPreferences sharedpreferences;
     ProductDetail productDetail;
     ImageView viewBtn;
+    RecyclerView recommendList;
+    String report_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +108,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         color_radiogroup = findViewById(R.id.rg_selectcolor);
         size_radiogroup = findViewById(R.id.rg_selectsize);
         product_detail1 = findViewById(R.id.product_detail);
+        recommendList = findViewById(R.id.recommendList);
         helperManager = new HelperManager(ctx);
         back_iv.setOnClickListener(this);
         wishlist_bt.setOnClickListener(this);
@@ -115,6 +133,18 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
             }
         });
 
+
+        for (int i = 0 ; i <related_ids.length() ; i++)
+        {
+            try {
+                Log.e("Recomments Product ", "..."+related_ids.get(i).toString());
+                report_id = related_ids.get(i).toString();
+                GetContacts getContacts = new GetContacts();
+                getContacts.execute();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void getData() {
@@ -324,9 +354,62 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 dialog.dismiss();
             }
         });
-
         dialog.show();
-
     }
+
+
+    /**
+     * Async task class to get json by making HTTP call
+     */
+    private class GetContacts extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Showing progress dialog
+        }
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            HttpHandler sh = new HttpHandler();
+            // Making a request to url and getting response
+            String jsonStr = sh.makeServiceCall("https://stygianstore.com/wp-json/wc/v3/products/"+report_id);
+            Log.e(TAG, "Response from url: " + jsonStr);
+            if (jsonStr != null) {
+                Log.e(TAG, "Json not empity " );
+                try {
+                    //converting response to json object
+                    JSONObject obj = new JSONObject(jsonStr);
+                    Log.e("Massage",obj.getString("message"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.e(TAG, "Couldn't get json from server.");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(ctx, "Couldn't get json from server. Check LogCat for possible errors!", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            // Dismiss the progress dialog
+
+        }
+    }
+
+
+    private void setAdapter(ArrayList<ProductDetail> list, int pos) {
+        ProductAdapter adapter = new ProductAdapter(list, ctx);
+        GridLayoutManager layoutManager = new GridLayoutManager(ctx, 2);
+        recommendList.setLayoutManager(layoutManager);
+        recommendList.setItemAnimator(new DefaultItemAnimator());
+        recommendList.setAdapter(adapter);
+        recommendList.scrollToPosition(pos);
+    }
+
 
 }
