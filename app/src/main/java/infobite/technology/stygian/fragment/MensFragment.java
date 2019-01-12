@@ -87,7 +87,6 @@ public class MensFragment extends Fragment implements View.OnClickListener {
                         //Utility.hideLoader();
                         setResponse(response, pos);
                     }
-
                     @Override
                     public void onError(ANError anError) {
                         //Utility.hideLoader();
