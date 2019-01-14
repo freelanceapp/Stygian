@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 
 import infobite.technology.stygian.constant.Constant;
+import infobite.technology.stygian.model.wallet_responce.WalletModel;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,6 +48,25 @@ public class RetrofitService {
         return client;
     }
 
+    public static void getWallet(final Dialog dialog, final Call<WalletModel> method, final WebResponse webResponse) {
+        if (dialog != null)
+            //AppProgressDialog.show(dialog);
 
+        method.enqueue(new Callback<WalletModel>() {
+            @Override
+            public void onResponse(Call<WalletModel> call, Response<WalletModel> response) {
+                if (dialog != null)
+                   // AppProgressDialog.hide(dialog);
+                WebServiceResponse.handleResponse(response, webResponse);
+            }
+
+            @Override
+            public void onFailure(Call<WalletModel> call, Throwable throwable) {
+                if (dialog != null)
+                   // AppProgressDialog.hide(dialog);
+                webResponse.onResponseFailed(throwable.getMessage());
+            }
+        });
+    }
 
 }

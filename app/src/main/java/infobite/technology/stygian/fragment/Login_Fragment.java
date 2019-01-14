@@ -3,6 +3,7 @@ package infobite.technology.stygian.fragment;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
 import android.os.Build;
@@ -47,6 +48,9 @@ import infobite.technology.stygian.util.WebApi;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static android.content.Context.MODE_PRIVATE;
+import static infobite.technology.stygian.activity.SplashActivity.mypreference;
 
 @SuppressLint("ValidFragment")
 public class Login_Fragment extends Fragment implements OnClickListener {
@@ -248,6 +252,10 @@ public class Login_Fragment extends Fragment implements OnClickListener {
                 String diaplay_name = user_obj.getString("displayname");
                 String fname = user_obj.getString("firstname");
                 String lname = user_obj.getString("lastname");
+
+                SharedPreferences.Editor editor = getActivity().getSharedPreferences(mypreference, MODE_PRIVATE).edit();
+                editor.putString("user_id", user_id);
+                editor.apply();
 
                 sessionManager.createLoginSession(user_id, username, diaplay_name, user_email);
                 startActivity(new Intent(ctx, MainActivity.class));

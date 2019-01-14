@@ -55,8 +55,9 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
     private static final int NAV_WISHLIST = 5;
     private static final int NAV_CART = 6;
     private static final int NAV_MYACCOUNT = 7;
-    private static final int NAV_POLICY = 8;
-    private static final int NAV_EXIT = 9;
+    private static final int NAV_OFFER= 8;
+    private static final int NAV_POLICY = 9;
+    private static final int NAV_EXIT = 10;
 
     private String[] screenTitles;
     private Drawable[] screenIcons;
@@ -116,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
                 createItemFor(NAV_WISHLIST),
                 createItemFor(NAV_CART),
                 createItemFor(NAV_MYACCOUNT),
+                createItemFor(NAV_OFFER),
                 createItemFor(NAV_POLICY),
                 createItemFor(NAV_EXIT)));
         drawadapter.setListener(this);
@@ -175,8 +177,10 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
 
         } else if (position == NAV_CART) {
             tooltext_tv.setText(Constant.CART);
-            CartFragment fragment = new CartFragment(ctx, this);
-            Utility.setFragment(fragment, ctx, Constant.CART);
+            /*CartFragment fragment = new CartFragment(ctx, this);
+            Utility.setFragment(fragment, ctx, Constant.CART);*/
+            Intent intent = new Intent(MainActivity.this, WalletActivity.class);
+            startActivity(intent);
             slidingRootNav.closeMenu();
         } else if (position == NAV_MYACCOUNT) {
             if (AppPreference.getBooleanPreference(ctx, Constant.IS_LOGIN_SKIP)) {
@@ -191,7 +195,16 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
                 Utility.setFragment(fragment, ctx, Constant.WISHLIST);
                 slidingRootNav.closeMenu();
             }
-        } else if (position == NAV_POLICY) {
+        }else if (position == NAV_OFFER) {
+            tooltext_tv.setText(Constant.OFFERS);
+           /* CartFragment fragment = new CartFragment(ctx, this);
+            Utility.setFragment(fragment, ctx, Constant.CART);*/
+            Intent intent = new Intent(MainActivity.this, OffersActivity.class);
+            startActivity(intent);
+            slidingRootNav.closeMenu();
+
+        }
+        else if (position == NAV_POLICY) {
             tooltext_tv.setText(Constant.POLICY);
            /* CartFragment fragment = new CartFragment(ctx, this);
             Utility.setFragment(fragment, ctx, Constant.CART);*/

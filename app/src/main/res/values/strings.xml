@@ -41,6 +41,7 @@
     <string name="submit">SUBMIT</string>
     <string name="back">BACK</string>
     <string name="log_out_user">Log out user</string>
+    <string name="please_login">Please Login</string>
 
     <!--toast message-->
     <string name="no_internet">No internet connection</string>
@@ -57,4 +58,5 @@
     <string name="shiping3">We are not responsible for any custom fees once the items have shipped. By purchasing our products, you consent that one or more packages may be shipped to you and may get custom fees when they arrive to your country.</string>
     <string name="shiping4">Shipping time varies by location. These are our estimates:</string>
     <string name="shiping6">You will receive an email with a tracking number once your order is shipped but sometimes due to free shipping tracking is not available. For logistical reasons, items in the same purchase may be sent in separate packages even if you’ve specified combined shipping.</string>
+    <string name="connection">no network</string>
 </resources>

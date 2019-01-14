@@ -26,8 +26,9 @@ public class Constant {
     public static final String MOBILE = "Mobile";
     public static final String HOME = "Home";
     public static final String WISHLIST = "Wishlist";
-    public static final String CART = "Cart";
+    public static final String CART = "Wallet";
     public static final String POLICY = "POLICY";
+    public static final String OFFERS = "OFFERS";
     public static final String BILLING = "Billing Details";
     public static final String MY_PROFILE = "My Profile";
     public static final String ALL = "all";

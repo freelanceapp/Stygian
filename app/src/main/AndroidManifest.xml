@@ -34,6 +34,9 @@
         <activity android:name=".activity.EditProfileActivity" />
         <activity android:name=".PayPal.PaypalActivity" />
         <activity android:name=".PayPal.ConfirmationActivity" />
+        <activity android:name=".activity.WalletActivity" />
+        <activity android:name=".activity.OffersActivity" />
+
         <!-- razorpay start -->
         <meta-data
             android:name="com.razorpay.ApiKey"

@@ -8,13 +8,15 @@
         <item>KIDS</item>
         <item>HOME APPLIANCES</item>
         <item>Wish List</item>
-        <item>CART</item>
+        <item>Wallet</item>
         <item>My Account</item>
+        <item>OFFERS</item>
         <item>POLICY</item>
         <item>Exit</item>
     </string-array>
 
     <array name="ld_activityScreenIcons">
+        <item>@mipmap/ic_launcher</item>
         <item>@mipmap/ic_launcher</item>
         <item>@mipmap/ic_launcher</item>
         <item>@mipmap/ic_launcher</item>
