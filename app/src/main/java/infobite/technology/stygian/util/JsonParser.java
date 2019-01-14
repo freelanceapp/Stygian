@@ -19,6 +19,7 @@ public class JsonParser {
                     JSONObject object = response.getJSONObject(i);
                     String id = object.getString("id");
                     String name = object.getString("name");
+                    String link = object.getString("permalink");
                     float price = object.getLong("price");
                     int roundprice = Math.round(price);
                     String reg_price = object.getString("regular_price");

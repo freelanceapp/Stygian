@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import static infobite.technology.stygian.fragment.MensFragment.related_ids;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
@@ -31,6 +30,8 @@ import infobite.technology.stygian.util.ConnectionDetector;
 import infobite.technology.stygian.util.Constant;
 import infobite.technology.stygian.util.Utility;
 import infobite.technology.stygian.util.WebApi;
+
+import static infobite.technology.stygian.fragment.MensFragment.related_ids;
 
 @SuppressLint("ValidFragment")
 public class KidsFragment extends Fragment implements View.OnClickListener {
@@ -98,11 +99,14 @@ public class KidsFragment extends Fragment implements View.OnClickListener {
 
     private void setResponse(JSONArray response, int pos) {
         if (response.length() > 0) {
+            ArrayList<String> productLink = new ArrayList<>();
             for (int i = 0; i < response.length(); i++) {
                 try {
                     JSONObject object = response.getJSONObject(i);
                     String id = object.getString("id");
                     String name = object.getString("name");
+                    String permalink = object.getString("permalink");
+                    productLink.add(permalink);
                     float price = object.getLong("price");
                     int roundprice = Math.round(price);
                     String reg_price = object.getString("regular_price");
@@ -117,27 +121,20 @@ public class KidsFragment extends Fragment implements View.OnClickListener {
                         image = objectimg.getString("src");
                     }
                     JSONArray attri_array = object.getJSONArray("attributes");
-                    list.add(new ProductDetail(id, name,description, String.valueOf(roundprice), reg_price,
+                    list.add(new ProductDetail(id, name, description, String.valueOf(roundprice), reg_price,
                             sale_price, html_price, image, image_array.toString(), attri_array.toString(), 1));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
             if (list.size() > 0) {
-                setAdapter(list, pos);
+                setAdapter(list, pos,productLink);
             }
         }
-
-/*
-        ArrayList<ProductDetail> list = JsonParser.getProducts(response);
-        if (list.size() > 0) {
-            setAdapter(list);
-        }
-*/
     }
 
-    private void setAdapter(ArrayList<ProductDetail> list, int pos) {
-        ProductAdapter adapter = new ProductAdapter(list, ctx);
+    private void setAdapter(ArrayList<ProductDetail> list, int pos, ArrayList<String> productLink) {
+        ProductAdapter adapter = new ProductAdapter(list, ctx,productLink);
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

@@ -18,7 +18,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
@@ -204,7 +203,6 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
         }
     }
 
-
     private DrawerItem createItemFor(int position) {
         return new SimpleItem(screenIcons[position], screenTitles[position])
                 .withIconTint(color(R.color.colorWhite))
@@ -256,8 +254,6 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
 
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
-
         if (slidingRootNav.isMenuOpened()) {
             slidingRootNav.closeMenu();
         } else {

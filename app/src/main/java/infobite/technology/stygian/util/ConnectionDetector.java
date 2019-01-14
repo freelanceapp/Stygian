@@ -9,8 +9,7 @@ import android.net.NetworkInfo;
 /**
  * Created by kamlesh on 11/9/2017.
  */
-public class ConnectionDetector extends BroadcastReceiver
-{
+public class ConnectionDetector extends BroadcastReceiver {
     public static ConnectivityReceiverListener connectivityReceiverListener;
 
     public ConnectionDetector() {

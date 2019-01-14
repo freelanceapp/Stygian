@@ -1,8 +1,8 @@
 package infobite.technology.stygian.activity;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.androidnetworking.AndroidNetworking;
@@ -19,14 +18,14 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import infobite.technology.stygian.R;
-import infobite.technology.stygian.adapter.AdapterSubCategory;
 import infobite.technology.stygian.adapter.ProductAdapter;
 import infobite.technology.stygian.model.ProductDetail;
-import infobite.technology.stygian.model.SubCategory;
 import infobite.technology.stygian.util.ConnectionDetector;
 import infobite.technology.stygian.util.Constant;
 import infobite.technology.stygian.util.JsonParser;
@@ -44,6 +43,8 @@ public class ProductsActivity extends AppCompatActivity implements View.OnClickL
     int page = 0;
 
     ArrayList<ProductDetail> list, search_list;
+    ArrayList<String> productLink = new ArrayList<>();
+    ArrayList<String> productLinkA = new ArrayList<>();
     ConnectionDetector connectionDetector;
 
     @Override
@@ -72,10 +73,24 @@ public class ProductsActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onResponse(JSONArray response) {
                         Utility.hideLoader();
-                        String data = response.toString();
                         list = JsonParser.getProducts(response);
+
+                        productLink = new ArrayList<>();
+                        if (response.length() > 0) {
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject object = null;
+                                try {
+                                    object = response.getJSONObject(i);
+                                    String link = object.getString("permalink");
+                                    productLink.add(link);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+
                         if (list.size() > 0) {
-                            setAdapter(list, pos);
+                            setAdapter(list, pos, productLink);
                         }
                     }
 
@@ -87,8 +102,8 @@ public class ProductsActivity extends AppCompatActivity implements View.OnClickL
                 });
     }
 
-    private void setAdapter(ArrayList<ProductDetail> list, int pos) {
-        ProductAdapter adapter = new ProductAdapter(list, ctx);
+    private void setAdapter(ArrayList<ProductDetail> list, int pos, ArrayList<String> productLink) {
+        ProductAdapter adapter = new ProductAdapter(list, ctx, productLink);
         GridLayoutManager layoutManager = new GridLayoutManager(ctx, 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -129,6 +144,7 @@ public class ProductsActivity extends AppCompatActivity implements View.OnClickL
 
             case R.id.iv_products_search:
                 search_list = new ArrayList<>();
+                productLinkA = new ArrayList<>();
                 String text = search_et.getText().toString();
                 if (!text.equals("")) {
                     search_iv.setVisibility(View.GONE);
@@ -137,9 +153,10 @@ public class ProductsActivity extends AppCompatActivity implements View.OnClickL
                         for (int i = 0; i < list.size(); i++) {
                             if (list.get(i).getName().contains(text)) {
                                 search_list.add(list.get(i));
+                                productLinkA.add(productLink.get(i));
                             }
                         }
-                        setAdapter(search_list, 0);
+                        setAdapter(search_list, 0, productLinkA);
                     }
                 }
                 break;
@@ -148,7 +165,7 @@ public class ProductsActivity extends AppCompatActivity implements View.OnClickL
                 search_et.setText("");
                 search_iv.setVisibility(View.VISIBLE);
                 searchcancel_iv.setVisibility(View.GONE);
-                setAdapter(list, 0);
+                setAdapter(list, 0, productLink);
                 break;
 
         }

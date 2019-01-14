@@ -98,11 +98,14 @@ public class MensFragment extends Fragment implements View.OnClickListener {
     private void setResponse(JSONArray response, int pos) {
 
         if (response.length() > 0) {
+            ArrayList<String> productLink = new ArrayList<>();
             for (int i = 0; i < response.length(); i++) {
                 try {
                     JSONObject object = response.getJSONObject(i);
                     String id = object.getString("id");
                     String name = object.getString("name");
+                    String permalink = object.getString("permalink");
+                    productLink.add(permalink);
                     float price = object.getLong("price");
                     int roundprice = Math.round(price);
                     String reg_price = object.getString("regular_price");
@@ -124,14 +127,14 @@ public class MensFragment extends Fragment implements View.OnClickListener {
                 }
             }
             if (list.size() > 0) {
-                setAdapter(list, pos);
+                setAdapter(list, pos,productLink);
             }
         }
 
     }
 
-    private void setAdapter(ArrayList<ProductDetail> list, int pos) {
-        ProductAdapter adapter = new ProductAdapter(list, ctx);
+    private void setAdapter(ArrayList<ProductDetail> list, int pos, ArrayList<String> productLink) {
+        ProductAdapter adapter = new ProductAdapter(list, ctx,productLink);
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

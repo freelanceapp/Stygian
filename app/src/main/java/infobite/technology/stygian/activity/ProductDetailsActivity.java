@@ -1,19 +1,15 @@
 package infobite.technology.stygian.activity;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -25,14 +21,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.androidnetworking.interfaces.StringRequestListener;
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -47,14 +40,11 @@ import infobite.technology.stygian.adapter.ProductAdapter;
 import infobite.technology.stygian.adapter.SlidingImage_Adapter;
 import infobite.technology.stygian.database.HelperManager;
 import infobite.technology.stygian.model.ProductDetail;
-import infobite.technology.stygian.retrofit_provider.HttpHandler;
 import infobite.technology.stygian.util.Constant;
 import infobite.technology.stygian.util.Utility;
-import okhttp3.internal.Util;
 
-import static android.support.constraint.Constraints.TAG;
-import static infobite.technology.stygian.activity.SplashActivity.mypreference;
 import static infobite.technology.stygian.activity.MainActivity.cart_count;
+import static infobite.technology.stygian.activity.SplashActivity.mypreference;
 import static infobite.technology.stygian.fragment.MensFragment.related_ids;
 
 public class ProductDetailsActivity extends AppCompatActivity implements View.OnClickListener {
@@ -77,7 +67,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     ProductDetail productDetail;
     ImageView viewBtn;
     RecyclerView recommendList;
-    String report_id;
+    String report_id, strProductLink = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +105,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         moreBtn.setOnClickListener(this);
         helperManager = new HelperManager(ctx);
         back_iv.setOnClickListener(this);
+        ((ImageView) findViewById(R.id.imgShare)).setOnClickListener(this);
         wishlist_bt.setOnClickListener(this);
         addcart_bt.setOnClickListener(this);
         cart_iv.setOnClickListener(this);
@@ -137,13 +128,11 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
             }
         });
 
-
         for (int i = 0; i < related_ids.length(); i++) {
             try {
                 Log.e("Recomments Product ", "..." + related_ids.get(i).toString());
                 report_id = related_ids.get(i).toString();
                 getdata1();
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -152,6 +141,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
     private void getData() {
         productDetail = getIntent().getExtras().getParcelable("data");
+        strProductLink = getIntent().getStringExtra("link");
         title_tv.setText(productDetail.getName());
         name_tv.setText(productDetail.getName());
         float price = Float.parseFloat(productDetail.getPrice());
@@ -271,6 +261,13 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.imgShare:
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
+                i.putExtra(Intent.EXTRA_TEXT, strProductLink);
+                startActivity(Intent.createChooser(i, "Share URL"));
+                break;
             case R.id.iv_prodetails_back:
                 finish();
                 break;
@@ -289,8 +286,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 startActivity(new Intent(ctx, MainActivity.class)
                         .putExtra("type", Constant.CART));
                 break;
-            case R.id.moreBtn :
-                Intent intent = new Intent(ProductDetailsActivity.this,MainActivity.class);
+            case R.id.moreBtn:
+                Intent intent = new Intent(ProductDetailsActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
                 break;
@@ -367,32 +364,32 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         dialog.show();
     }
 
-
     public void getdata1() {
-        //Utility.showLoader(ctx);
-        AndroidNetworking.get("https://stygianstore.com/wp-json/wc/v3/products/"+report_id)
+        AndroidNetworking.get("https://stygianstore.com/wp-json/wc/v3/products/" + report_id)
                 .setTag("test")
                 .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsString(new StringRequestListener() {
                     @Override
                     public void onResponse(String response) {
-                        //Utility.hideLoader();
                         setResponse(response);
                     }
+
                     @Override
                     public void onError(ANError anError) {
-                        //Utility.hideLoader();
                         Utility.toastView(ctx, anError.toString());
                     }
                 });
     }
 
     private void setResponse(String response) {
+        ArrayList<String> productLink = new ArrayList<>();
         try {
             JSONObject object = new JSONObject(response);
             String id = object.getString("id");
             String name = object.getString("name");
+            String permalink = object.getString("permalink");
+            productLink.add(permalink);
             float price = object.getLong("price");
             int roundprice = Math.round(price);
             String reg_price = object.getString("regular_price");
@@ -401,7 +398,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
             String description = object.getString("description");
             JSONArray image_array = object.getJSONArray("images");
             related_ids = object.getJSONArray("related_ids");
-            Log.e("name","..."+name);
+
             String image = "";
             if (image_array.length() > 0) {
                 JSONObject objectimg = image_array.getJSONObject(0);
@@ -412,21 +409,18 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                     sale_price, html_price, image, image_array.toString(), attri_array.toString(), 1));
 
             if (list.size() > 0) {
-                setAdapter(list);
+                setAdapter(list, productLink);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-
-    private void setAdapter(ArrayList<ProductDetail> list) {
-        ProductAdapter adapter = new ProductAdapter(list, ctx);
+    private void setAdapter(ArrayList<ProductDetail> list, ArrayList<String> productLink) {
+        ProductAdapter adapter = new ProductAdapter(list, ctx, productLink);
         GridLayoutManager layoutManager = new GridLayoutManager(ctx, 2);
         recommendList.setLayoutManager(layoutManager);
         recommendList.setItemAnimator(new DefaultItemAnimator());
         recommendList.setAdapter(adapter);
     }
-
-
 }
