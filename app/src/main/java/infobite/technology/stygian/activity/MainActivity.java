@@ -2,7 +2,6 @@ package infobite.technology.stygian.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -25,6 +24,7 @@ import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 import java.util.Arrays;
 
 import infobite.technology.stygian.R;
+import infobite.technology.stygian.constant.Constant;
 import infobite.technology.stygian.fragment.CartFragment;
 import infobite.technology.stygian.fragment.HomeFragment;
 import infobite.technology.stygian.fragment.MainFragment;
@@ -34,13 +34,10 @@ import infobite.technology.stygian.menu.DrawerAdapter;
 import infobite.technology.stygian.menu.DrawerItem;
 import infobite.technology.stygian.menu.SimpleItem;
 import infobite.technology.stygian.util.AppPreference;
-import infobite.technology.stygian.util.Constant;
+import infobite.technology.stygian.util.ConstantData;
 import infobite.technology.stygian.util.SessionManager;
 import infobite.technology.stygian.util.Utility;
 import infobite.technology.stygian.util.WebApi;
-
-import static infobite.technology.stygian.activity.SplashActivity.mypreference;
-
 
 public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnItemSelectedListener, View.OnClickListener {
 
@@ -54,8 +51,9 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
     private static final int NAV_WISHLIST = 5;
     private static final int NAV_CART = 6;
     private static final int NAV_MYACCOUNT = 7;
-    private static final int NAV_POLICY = 8;
-    private static final int NAV_EXIT = 9;
+    private static final int NAV_OFFER = 8;
+    private static final int NAV_POLICY = 9;
+    private static final int NAV_EXIT = 10;
 
     private String[] screenTitles;
     private Drawable[] screenIcons;
@@ -77,8 +75,8 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
 
     private void initXml(Bundle savedInstanceState) {
         ctx = this;
-        SharedPreferences prefs = getSharedPreferences(mypreference, MODE_PRIVATE);
-        cart_count = prefs.getInt("Cart_Number", 0); //0 is the default value.
+
+        cart_count = AppPreference.getIntegerPreference(ctx, Constant.CART_ITEM_COUNT); //0 is the default value.
         cart_btn = findViewById(R.id.cart_btn);
         logo_iv = findViewById(R.id.iv_main_logo);
         cart_number = findViewById(R.id.cart_number);
@@ -115,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
                 createItemFor(NAV_WISHLIST),
                 createItemFor(NAV_CART),
                 createItemFor(NAV_MYACCOUNT),
+                createItemFor(NAV_OFFER),
                 createItemFor(NAV_POLICY),
                 createItemFor(NAV_EXIT)));
         drawadapter.setListener(this);
@@ -133,13 +132,13 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
 
         if (getIntent().getExtras() != null) {
             String type = getIntent().getStringExtra("type");
-            if (type.equals(Constant.CART)) {
+            if (type.equals(ConstantData.CART)) {
                 CartFragment cartFragment = new CartFragment(ctx, this);
-                Utility.setFragment(cartFragment, ctx, Constant.CART);
+                Utility.setFragment(cartFragment, ctx, ConstantData.CART);
             }
         } else {
             MainFragment fragment = new MainFragment(ctx);
-            Utility.setFragment(fragment, ctx, Constant.HOME);
+            Utility.setFragment(fragment, ctx, ConstantData.HOME);
         }
     }
 
@@ -148,37 +147,39 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
 
         if (position == NAV_ALL) {
             MainFragment fragment = new MainFragment(ctx);
-            Utility.setFragment(fragment, ctx, Constant.HOME);
+            Utility.setFragment(fragment, ctx, ConstantData.HOME);
             slidingRootNav.closeMenu();
         } else if (position == NAV_MEN) {
             startActivity(new Intent(ctx, SubCategoryActivity.class)
-                    .putExtra(Constant.ACTIVITY_ID, WebApi.ID_SUB_MEN)
-                    .putExtra(Constant.ACTIVITY_TYPE, Constant.MEN));
+                    .putExtra(ConstantData.ACTIVITY_ID, WebApi.ID_SUB_MEN)
+                    .putExtra(ConstantData.ACTIVITY_TYPE, ConstantData.MEN));
         } else if (position == NAV_WOMEN) {
             startActivity(new Intent(ctx, SubCategoryActivity.class)
-                    .putExtra(Constant.ACTIVITY_ID, WebApi.ID_SUB_WOMEN)
-                    .putExtra(Constant.ACTIVITY_TYPE, Constant.WOMEN));
+                    .putExtra(ConstantData.ACTIVITY_ID, WebApi.ID_SUB_WOMEN)
+                    .putExtra(ConstantData.ACTIVITY_TYPE, ConstantData.WOMEN));
         } else if (position == NAV_KIDS) {
             startActivity(new Intent(ctx, ProductsActivity.class)
-                    .putExtra(Constant.ACTIVITY_ID, WebApi.ID_PRODUCTS_KIDS)
-                    .putExtra(Constant.ACTIVITY_TYPE, Constant.KIDS));
+                    .putExtra(ConstantData.ACTIVITY_ID, WebApi.ID_PRODUCTS_KIDS)
+                    .putExtra(ConstantData.ACTIVITY_TYPE, ConstantData.KIDS));
         } else if (position == NAV_HOME) {
             startActivity(new Intent(ctx, ProductsActivity.class)
-                    .putExtra(Constant.ACTIVITY_ID, WebApi.ID_PRODUCTS_HOME)
-                    .putExtra(Constant.ACTIVITY_TYPE, Constant.HOME));
+                    .putExtra(ConstantData.ACTIVITY_ID, WebApi.ID_PRODUCTS_HOME)
+                    .putExtra(ConstantData.ACTIVITY_TYPE, ConstantData.HOME));
         } else if (position == NAV_WISHLIST) {
-            tooltext_tv.setText(Constant.WISHLIST);
+            tooltext_tv.setText(ConstantData.WISHLIST);
             WishlistFragment fragment = new WishlistFragment(ctx);
-            Utility.setFragment(fragment, ctx, Constant.WISHLIST);
+            Utility.setFragment(fragment, ctx, ConstantData.WISHLIST);
             slidingRootNav.closeMenu();
 
         } else if (position == NAV_CART) {
-            tooltext_tv.setText(Constant.CART);
-            CartFragment fragment = new CartFragment(ctx, this);
-            Utility.setFragment(fragment, ctx, Constant.CART);
+            tooltext_tv.setText(ConstantData.CART);
+            /*CartFragment fragment = new CartFragment(ctx, this);
+            Utility.setFragment(fragment, ctx, ConstantData.CART);*/
+            Intent intent = new Intent(MainActivity.this, WalletActivity.class);
+            startActivity(intent);
             slidingRootNav.closeMenu();
         } else if (position == NAV_MYACCOUNT) {
-            if (AppPreference.getBooleanPreference(ctx, Constant.IS_LOGIN_SKIP)) {
+            if (AppPreference.getBooleanPreference(ctx, ConstantData.IS_LOGIN_SKIP)) {
                 //Toast.makeText(ctx, "Please login first for access account functionality!!!", Toast.LENGTH_SHORT).show();
                 slidingRootNav.closeMenu();
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
@@ -186,14 +187,22 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
                 finish();
             } else {
                 MyProfileFragment fragment = new MyProfileFragment(ctx);
-                tooltext_tv.setText(Constant.MY_PROFILE);
-                Utility.setFragment(fragment, ctx, Constant.WISHLIST);
+                tooltext_tv.setText(ConstantData.MY_PROFILE);
+                Utility.setFragment(fragment, ctx, ConstantData.WISHLIST);
                 slidingRootNav.closeMenu();
             }
-        } else if (position == NAV_POLICY) {
-            tooltext_tv.setText(Constant.POLICY);
+        } else if (position == NAV_OFFER) {
+            tooltext_tv.setText(ConstantData.OFFERS);
            /* CartFragment fragment = new CartFragment(ctx, this);
-            Utility.setFragment(fragment, ctx, Constant.CART);*/
+            Utility.setFragment(fragment, ctx, ConstantData.CART);*/
+            Intent intent = new Intent(MainActivity.this, OffersActivity.class);
+            startActivity(intent);
+            slidingRootNav.closeMenu();
+
+        } else if (position == NAV_POLICY) {
+            tooltext_tv.setText(ConstantData.POLICY);
+           /* CartFragment fragment = new CartFragment(ctx, this);
+            Utility.setFragment(fragment, ctx, ConstantData.CART);*/
             Intent intent = new Intent(MainActivity.this, PolicyActivity.class);
             startActivity(intent);
             slidingRootNav.closeMenu();
@@ -239,15 +248,15 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
         switch (view.getId()) {
 
             case R.id.cart_btn:
-                tooltext_tv.setText(Constant.CART);
+                tooltext_tv.setText(ConstantData.CART);
                 CartFragment fragment = new CartFragment(ctx, this);
-                Utility.setFragment(fragment, ctx, Constant.CART);
+                Utility.setFragment(fragment, ctx, ConstantData.CART);
                 break;
 
             case R.id.iv_main_logo:
-                tooltext_tv.setText(Constant.HOME);
+                tooltext_tv.setText(ConstantData.HOME);
                 HomeFragment allfragment = new HomeFragment(ctx);
-                Utility.setFragment(allfragment, ctx, Constant.HOME);
+                Utility.setFragment(allfragment, ctx, ConstantData.HOME);
                 break;
         }
     }
@@ -260,13 +269,20 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
             FragmentManager fm = getSupportFragmentManager();
             Fragment fragment_byID = fm.findFragmentById(R.id.home_frame);
             String tag = fragment_byID.getTag();
-            if (!tag.equals(Constant.HOME)) {
+            if (!tag.equals(ConstantData.HOME)) {
                 HomeFragment homeFragment = new HomeFragment(ctx);
-                Utility.setFragment(homeFragment, ctx, Constant.HOME);
+                Utility.setFragment(homeFragment, ctx, ConstantData.HOME);
             } else {
                 finish();
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        cart_count = AppPreference.getIntegerPreference(ctx, Constant.CART_ITEM_COUNT); //0 is the default value.
+        cart_number.setText("" + cart_count);
     }
 }
 

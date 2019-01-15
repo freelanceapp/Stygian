@@ -3,6 +3,7 @@ package infobite.technology.stygian.fragment;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
 import android.os.Build;
@@ -38,15 +39,18 @@ import org.json.JSONObject;
 
 import infobite.technology.stygian.activity.MainActivity;
 import infobite.technology.stygian.util.ConnectionDetector;
+import infobite.technology.stygian.util.ConstantData;
 import infobite.technology.stygian.util.CustomToast;
 import infobite.technology.stygian.R;
-import infobite.technology.stygian.util.Constant;
 import infobite.technology.stygian.util.SessionManager;
 import infobite.technology.stygian.util.Utility;
 import infobite.technology.stygian.util.WebApi;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static android.content.Context.MODE_PRIVATE;
+import static infobite.technology.stygian.activity.SplashActivity.mypreference;
 
 @SuppressLint("ValidFragment")
 public class Login_Fragment extends Fragment implements OnClickListener {
@@ -170,14 +174,14 @@ public class Login_Fragment extends Fragment implements OnClickListener {
                         .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
                         .replace(R.id.frameContainer,
                                 new ForgotPassword_Fragment(),
-                                Constant.ForgotPassword_Fragment).commit();
+                                ConstantData.ForgotPassword_Fragment).commit();
                 break;
             case R.id.createAccount:
                 fragmentManager
                         .beginTransaction()
                         .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
                         .replace(R.id.frameContainer, new SignUp_Fragment(ctx),
-                                Constant.SignUp_Fragment).commit();
+                                ConstantData.SignUp_Fragment).commit();
                 break;
         }
 
@@ -188,7 +192,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
         getEmailId = emailid_et.getText().toString();
         getPassword = password_et.getText().toString();
 
-        Pattern p = Pattern.compile(Constant.regEx);
+        Pattern p = Pattern.compile(ConstantData.regEx);
         Matcher m = p.matcher(getEmailId);
 
         if (getEmailId.equals("") || getEmailId.length() == 0
@@ -248,6 +252,10 @@ public class Login_Fragment extends Fragment implements OnClickListener {
                 String diaplay_name = user_obj.getString("displayname");
                 String fname = user_obj.getString("firstname");
                 String lname = user_obj.getString("lastname");
+
+                SharedPreferences.Editor editor = getActivity().getSharedPreferences(mypreference, MODE_PRIVATE).edit();
+                editor.putString("user_id", user_id);
+                editor.apply();
 
                 sessionManager.createLoginSession(user_id, username, diaplay_name, user_email);
                 startActivity(new Intent(ctx, MainActivity.class));

@@ -2,14 +2,12 @@ package infobite.technology.stygian.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import infobite.technology.stygian.R;
-import infobite.technology.stygian.util.Constant;
+import infobite.technology.stygian.util.ConstantData;
 import infobite.technology.stygian.util.Utility;
 
 import static infobite.technology.stygian.activity.MainActivity.tooltext_tv;
@@ -47,7 +45,7 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_myprofile, container, false);
-        tooltext_tv.setText(Constant.MY_ACCOUNT);
+        tooltext_tv.setText(ConstantData.MY_ACCOUNT);
         initXml(view);
         viewPager = view.findViewById(R.id.viewpager1);
         tabLayout = view.findViewById(R.id.tabs1);

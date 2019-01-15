@@ -17,7 +17,7 @@ import android.widget.Toast;
 import infobite.technology.stygian.util.CustomToast;
 import infobite.technology.stygian.activity.LoginActivity;
 import infobite.technology.stygian.R;
-import infobite.technology.stygian.util.Constant;
+import infobite.technology.stygian.util.ConstantData;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -92,7 +92,7 @@ public class ForgotPassword_Fragment extends Fragment implements
 		String getEmailId = emailId.getText().toString();
 
 		// Pattern for email id validation
-		Pattern p = Pattern.compile(Constant.regEx);
+		Pattern p = Pattern.compile(ConstantData.regEx);
 
 		// Match the pattern
 		Matcher m = p.matcher(getEmailId);

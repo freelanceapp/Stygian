@@ -38,13 +38,14 @@ import java.util.ArrayList;
 import infobite.technology.stygian.R;
 import infobite.technology.stygian.adapter.ProductAdapter;
 import infobite.technology.stygian.adapter.SlidingImage_Adapter;
+import infobite.technology.stygian.constant.Constant;
 import infobite.technology.stygian.database.HelperManager;
 import infobite.technology.stygian.model.ProductDetail;
-import infobite.technology.stygian.util.Constant;
+import infobite.technology.stygian.util.AppPreference;
+import infobite.technology.stygian.util.ConstantData;
 import infobite.technology.stygian.util.Utility;
 
 import static infobite.technology.stygian.activity.MainActivity.cart_count;
-import static infobite.technology.stygian.activity.SplashActivity.mypreference;
 import static infobite.technology.stygian.fragment.MensFragment.related_ids;
 
 public class ProductDetailsActivity extends AppCompatActivity implements View.OnClickListener {
@@ -73,9 +74,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
-
-        SharedPreferences prefs = getSharedPreferences(mypreference, MODE_PRIVATE);
-        cart_count = prefs.getInt("Cart_Number", 0); //0 is the default value.
+        ctx = this;
+        cart_count = AppPreference.getIntegerPreference(ctx, Constant.CART_ITEM_COUNT); //0 is the default value.
         initXml();
         getData();
     }
@@ -284,7 +284,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
             case R.id.iv_prodetails_cart:
                 finishAffinity();
                 startActivity(new Intent(ctx, MainActivity.class)
-                        .putExtra("type", Constant.CART));
+                        .putExtra("type", ConstantData.CART));
                 break;
             case R.id.moreBtn:
                 Intent intent = new Intent(ProductDetailsActivity.this, MainActivity.class);
@@ -319,9 +319,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
             if (insert) {
                 Utility.toastView(ctx, "Add to Cart");
                 cart_count = cart_count + 1;
-                SharedPreferences.Editor editor = getSharedPreferences(mypreference, MODE_PRIVATE).edit();
-                editor.putInt("Cart_Number", cart_count);
-                editor.apply();
+                AppPreference.setIntegerPreference(ctx, Constant.CART_ITEM_COUNT, cart_count);
                 cart_number.setText("" + cart_count);
             }
         }

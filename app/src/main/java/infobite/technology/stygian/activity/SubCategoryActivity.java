@@ -23,7 +23,7 @@ import infobite.technology.stygian.R;
 import infobite.technology.stygian.adapter.AdapterSubCategory;
 import infobite.technology.stygian.model.SubCategory;
 import infobite.technology.stygian.util.ConnectionDetector;
-import infobite.technology.stygian.util.Constant;
+import infobite.technology.stygian.util.ConstantData;
 import infobite.technology.stygian.util.JsonParser;
 import infobite.technology.stygian.util.Utility;
 import infobite.technology.stygian.util.WebApi;
@@ -45,7 +45,7 @@ public class SubCategoryActivity extends AppCompatActivity implements View.OnCli
         initXml();
         boolean internet = connectionDetector.isConnected();
         if (internet) {
-            String id = getIntent().getStringExtra(Constant.ACTIVITY_ID);
+            String id = getIntent().getStringExtra(ConstantData.ACTIVITY_ID);
             getData(id);
         } else {
             Utility.toastView(ctx, ctx.getString(R.string.no_internet));
@@ -81,7 +81,7 @@ public class SubCategoryActivity extends AppCompatActivity implements View.OnCli
         back_iv = findViewById(R.id.iv_subcate_back);
         title_tv = findViewById(R.id.tv_subcate_title);
 
-        title_tv.setText(getIntent().getStringExtra(Constant.ACTIVITY_TYPE));
+        title_tv.setText(getIntent().getStringExtra(ConstantData.ACTIVITY_TYPE));
         back_iv.setOnClickListener(this);
         listView.setOnItemClickListener(this);
     }
@@ -95,7 +95,7 @@ public class SubCategoryActivity extends AppCompatActivity implements View.OnCli
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
         startActivity(new Intent(ctx, ProductsActivity.class)
-                .putExtra(Constant.ACTIVITY_ID, list.get(i).getId())
-                .putExtra(Constant.ACTIVITY_TYPE, list.get(i).getName()));
+                .putExtra(ConstantData.ACTIVITY_ID, list.get(i).getId())
+                .putExtra(ConstantData.ACTIVITY_TYPE, list.get(i).getName()));
     }
 }

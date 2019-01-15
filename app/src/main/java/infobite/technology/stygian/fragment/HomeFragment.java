@@ -42,7 +42,7 @@ import infobite.technology.stygian.retrofit_provider.RetrofitService;
 import infobite.technology.stygian.retrofit_provider.WebResponse;
 import infobite.technology.stygian.util.Alerts;
 import infobite.technology.stygian.util.ConnectionDetector;
-import infobite.technology.stygian.util.Constant;
+import infobite.technology.stygian.util.ConstantData;
 import infobite.technology.stygian.util.NetworkDetector;
 import infobite.technology.stygian.util.Utility;
 import infobite.technology.stygian.util.WebApi;
@@ -241,20 +241,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             case R.id.ll_home_men:
                 startActivity(new Intent(mContext, SubCategoryActivity.class)
-                        .putExtra(Constant.ACTIVITY_ID, WebApi.ID_SUB_MEN)
-                        .putExtra(Constant.ACTIVITY_TYPE, Constant.MEN));
+                        .putExtra(ConstantData.ACTIVITY_ID, WebApi.ID_SUB_MEN)
+                        .putExtra(ConstantData.ACTIVITY_TYPE, ConstantData.MEN));
                 break;
 
             case R.id.ll_home_women:
                 startActivity(new Intent(mContext, SubCategoryActivity.class)
-                        .putExtra(Constant.ACTIVITY_ID, WebApi.ID_SUB_WOMEN)
-                        .putExtra(Constant.ACTIVITY_TYPE, Constant.WOMEN));
+                        .putExtra(ConstantData.ACTIVITY_ID, WebApi.ID_SUB_WOMEN)
+                        .putExtra(ConstantData.ACTIVITY_TYPE, ConstantData.WOMEN));
                 break;
 
             case R.id.ll_home_home:
                 startActivity(new Intent(mContext, ProductsActivity.class)
-                        .putExtra(Constant.ACTIVITY_ID, WebApi.ID_PRODUCTS_HOME)
-                        .putExtra(Constant.ACTIVITY_TYPE, Constant.HOME));
+                        .putExtra(ConstantData.ACTIVITY_ID, WebApi.ID_PRODUCTS_HOME)
+                        .putExtra(ConstantData.ACTIVITY_TYPE, ConstantData.HOME));
                 break;
         }
     }

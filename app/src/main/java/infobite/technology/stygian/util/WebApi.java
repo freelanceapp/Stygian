@@ -15,6 +15,10 @@ public class WebApi {
     public static final String API_WOMENS = "https://stygianstore.com/wp-json/wc/v3/products?category=2179&page=";
     public static final String API_KIDS = "https://stygianstore.com/wp-json/wc/v3/products?category=11520&page=";
     public static final String API_MOBILE = "https://stygianstore.com/wp-json/wc/v3/products?category=6719&page=";
+    public static final String API_WALLET = "https://stygianstore.com/wp-json/wc/v2/wallet/";
+    public static final String API_OFFERS = "https://stygianstore.com/wp-json/wc/v3/coupons/";
+    public static final String API_PRODUCT = "https://stygianstore.com/wp-json/wc/v3/products/";
+
 
     public static final String API_MEN_SUB_CATE = "https://stygianstore.com/wp-json/wc/v3/products/categories?parent=1832";
 

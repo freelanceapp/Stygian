@@ -57,7 +57,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         searchInit();
     }
 
-    private void allProductApi() {
+   private void allProductApi() {
         if (networkDetector.isNetworkAvailable()) {
             RetrofitService.getAllProduct(new Dialog(mContext), retrofitApiClient.allProductList(), new WebResponse() {
                 @Override

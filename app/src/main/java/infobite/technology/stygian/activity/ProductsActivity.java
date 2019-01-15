@@ -27,7 +27,7 @@ import infobite.technology.stygian.R;
 import infobite.technology.stygian.adapter.ProductAdapter;
 import infobite.technology.stygian.model.ProductDetail;
 import infobite.technology.stygian.util.ConnectionDetector;
-import infobite.technology.stygian.util.Constant;
+import infobite.technology.stygian.util.ConstantData;
 import infobite.technology.stygian.util.JsonParser;
 import infobite.technology.stygian.util.Utility;
 import infobite.technology.stygian.util.WebApi;
@@ -54,7 +54,7 @@ public class ProductsActivity extends AppCompatActivity implements View.OnClickL
         initXml();
         boolean internet = connectionDetector.isConnected();
         if (internet) {
-            String id = getIntent().getStringExtra(Constant.ACTIVITY_ID);
+            String id = getIntent().getStringExtra(ConstantData.ACTIVITY_ID);
             getData(id);
         } else {
             Utility.toastView(ctx, ctx.getString(R.string.no_internet));
@@ -122,7 +122,7 @@ public class ProductsActivity extends AppCompatActivity implements View.OnClickL
         title_tv = findViewById(R.id.tv_products_title);
         list = new ArrayList<>();
 
-        title_tv.setText(getIntent().getStringExtra(Constant.ACTIVITY_TYPE));
+        title_tv.setText(getIntent().getStringExtra(ConstantData.ACTIVITY_TYPE));
         back_iv.setOnClickListener(this);
         search_iv.setOnClickListener(this);
         searchcancel_iv.setOnClickListener(this);
@@ -134,7 +134,7 @@ public class ProductsActivity extends AppCompatActivity implements View.OnClickL
 
         switch (view.getId()) {
             case R.id.bt_products_loadmore:
-                String id = getIntent().getStringExtra(Constant.ACTIVITY_ID);
+                String id = getIntent().getStringExtra(ConstantData.ACTIVITY_ID);
                 getData(id);
                 break;
 

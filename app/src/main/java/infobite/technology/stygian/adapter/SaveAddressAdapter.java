@@ -14,7 +14,6 @@ import java.util.ArrayList;
 
 import infobite.technology.stygian.R;
 import infobite.technology.stygian.model.SaveAddress;
-import infobite.technology.stygian.util.Constant;
 import infobite.technology.stygian.util.SessionManager;
 
 public class SaveAddressAdapter extends RecyclerView.Adapter<SaveAddressAdapter.MyViewHolder> {

@@ -27,7 +27,7 @@ import infobite.technology.stygian.R;
 import infobite.technology.stygian.adapter.ProductAdapter;
 import infobite.technology.stygian.model.ProductDetail;
 import infobite.technology.stygian.util.ConnectionDetector;
-import infobite.technology.stygian.util.Constant;
+import infobite.technology.stygian.util.ConstantData;
 import infobite.technology.stygian.util.Utility;
 import infobite.technology.stygian.util.WebApi;
 
@@ -64,7 +64,7 @@ public class KidsFragment extends Fragment implements View.OnClickListener {
         initXml(view);
         boolean internet = connectionDetector.isConnected();
         if (internet) {
-            if (type.equals(Constant.KIDS)) {
+            if (type.equals(ConstantData.KIDS)) {
                 api = WebApi.API_KIDS;
             }
             getdata();

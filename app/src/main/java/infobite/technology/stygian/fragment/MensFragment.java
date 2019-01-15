@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +27,7 @@ import infobite.technology.stygian.adapter.ProductAdapter;
 import infobite.technology.stygian.R;
 import infobite.technology.stygian.model.ProductDetail;
 import infobite.technology.stygian.util.ConnectionDetector;
-import infobite.technology.stygian.util.Constant;
+import infobite.technology.stygian.util.ConstantData;
 import infobite.technology.stygian.util.Utility;
 import infobite.technology.stygian.util.WebApi;
 
@@ -63,7 +62,7 @@ public class MensFragment extends Fragment implements View.OnClickListener {
         initXml(view);
         boolean internet = connectionDetector.isConnected();
         if (internet) {
-            if (type.equals(Constant.MEN)) {
+            if (type.equals(ConstantData.MEN)) {
                 api = WebApi.API_MENS;
                 getdata();
             }

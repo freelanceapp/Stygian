@@ -41,6 +41,7 @@
     <string name="submit">SUBMIT</string>
     <string name="back">BACK</string>
     <string name="log_out_user">Log out user</string>
+    <string name="please_login">Please Login</string>
 
     <!--toast message-->
     <string name="no_internet">No internet connection</string>

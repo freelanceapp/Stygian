@@ -2,15 +2,12 @@ package infobite.technology.stygian.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,38 +17,24 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
-import com.squareup.picasso.Request;
-import com.squareup.picasso.RequestHandler;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import infobite.technology.stygian.util.ConnectionDetector;
 import infobite.technology.stygian.util.CustomToast;
-import infobite.technology.stygian.activity.LoginActivity;
 import infobite.technology.stygian.R;
-import infobite.technology.stygian.util.Constant;
+import infobite.technology.stygian.util.ConstantData;
 import infobite.technology.stygian.util.Utility;
 import infobite.technology.stygian.util.WebApi;
-import okhttp3.internal.Util;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static android.content.ContentValues.TAG;
 
 @SuppressLint("ValidFragment")
 public class SignUp_Fragment extends Fragment implements OnClickListener {
@@ -129,7 +112,7 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
                         .beginTransaction()
                         .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
                         .replace(R.id.frameContainer, new Login_Fragment(ctx),
-                                Constant.SignUp_Fragment).commit();
+                                ConstantData.SignUp_Fragment).commit();
                 break;
         }
 
@@ -143,7 +126,7 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
         getPassword = password_et.getText().toString();
         getConfirmPassword = confirmPassword_et.getText().toString();
 
-        Pattern p = Pattern.compile(Constant.regEx);
+        Pattern p = Pattern.compile(ConstantData.regEx);
         Matcher m = p.matcher(getEmailId);
 
         if (getUserName.equals("") || getUserName.length() == 0
@@ -217,7 +200,7 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
                 .beginTransaction()
                 .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
                 .replace(R.id.frameContainer, new Login_Fragment(ctx),
-                        Constant.SignUp_Fragment).commit();
+                        ConstantData.SignUp_Fragment).commit();
     }
 
     private void clear() {

@@ -16,7 +16,6 @@ public class DatabaseConstant {
     public static final String TABLE_WISHLIST_ARRTIB = "attrib";
     public static final String TABLE_WISHLIST_DESCRIPTION = "des";
     public static final String TABLE_WISHLIST_QUANTITY = "qty";
-    public static final String TABLE_WISHLIST_PERMALINK = "permalink";
 
     public static final String TABLE_CART_ID = "cartid";
     public static final String TABLE_CART_NAME = "cartname";
@@ -29,5 +28,4 @@ public class DatabaseConstant {
     public static final String TABLE_CART_ARRTIB = "cartattrib";
     public static final String TABLE_CART_DESCRIPTION = "cartdes";
     public static final String TABLE_CART_QUANTITY = "cartqty";
-    public static final String TABLE_CART_PERMALINK = "PERMALINK";
 }

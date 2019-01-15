@@ -17,6 +17,9 @@ public class ProductDetail implements Parcelable {
     private int quantity;
     private String description;
 
+    public ProductDetail() {
+        
+    }
 
     public ProductDetail(String id, String name, String description, String price, String reg_price, String sale_price, String html_price, String image, String images_array, String attributes_array, int quantity) {
         this.id = id;

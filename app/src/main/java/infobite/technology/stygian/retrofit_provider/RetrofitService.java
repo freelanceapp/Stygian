@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import infobite.technology.stygian.constant.Constant;
 import infobite.technology.stygian.model.all_product_modal.AllProductMainModal;
+import infobite.technology.stygian.model.wallet_responce.WalletModel;
 import infobite.technology.stygian.model.banner_responce.BannerModel;
 import infobite.technology.stygian.util.AppProgressDialog;
 import okhttp3.OkHttpClient;

@@ -7,10 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,13 +23,12 @@ import java.util.ArrayList;
 
 import infobite.technology.stygian.R;
 import infobite.technology.stygian.activity.MainActivity;
-import infobite.technology.stygian.adapter.AdapterCart;
 import infobite.technology.stygian.database.HelperManager;
 import infobite.technology.stygian.model.ProductDetail;
 import infobite.technology.stygian.retrofit.ApInterface;
 import infobite.technology.stygian.retrofit.response.PostOrder;
 import infobite.technology.stygian.util.ConnectionDetector;
-import infobite.technology.stygian.util.Constant;
+import infobite.technology.stygian.util.ConstantData;
 import infobite.technology.stygian.util.SessionManager;
 import infobite.technology.stygian.util.Utility;
 import retrofit2.Call;
@@ -67,7 +62,7 @@ public class FragmentBilling extends Fragment implements View.OnClickListener, C
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_billing_details, container, false);
-        MainActivity.tooltext_tv.setText(Constant.BILLING);
+        MainActivity.tooltext_tv.setText(ConstantData.BILLING);
         initXml(view);
         return view;
     }

@@ -6,11 +6,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 
 import infobite.technology.stygian.R;
 import infobite.technology.stygian.util.AppPreference;
-import infobite.technology.stygian.util.Constant;
+import infobite.technology.stygian.util.ConstantData;
 import infobite.technology.stygian.fragment.Login_Fragment;
 import infobite.technology.stygian.util.SessionManager;
 
@@ -31,13 +30,13 @@ public class LoginActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             fragmentManager
                     .beginTransaction()
-                    .replace(R.id.frameContainer, new Login_Fragment(ctx), Constant.Login_Fragment).commit();
+                    .replace(R.id.frameContainer, new Login_Fragment(ctx), ConstantData.Login_Fragment).commit();
         }
 
         // On close icon click finish activity
         findViewById(R.id.close_activity).setOnClickListener(
                 arg0 -> {
-                    AppPreference.setBooleanPreference(getApplicationContext(), Constant.IS_LOGIN_SKIP, true);
+                    AppPreference.setBooleanPreference(getApplicationContext(), ConstantData.IS_LOGIN_SKIP, true);
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -60,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
                 .beginTransaction()
                 .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
                 .replace(R.id.frameContainer, new Login_Fragment(ctx),
-                        Constant.Login_Fragment).commit();
+                        ConstantData.Login_Fragment).commit();
     }
 
     @Override
@@ -68,9 +67,9 @@ public class LoginActivity extends AppCompatActivity {
 
         // Find the tag of signup and forgot password fragment
         Fragment SignUp_Fragment = fragmentManager
-                .findFragmentByTag(Constant.SignUp_Fragment);
+                .findFragmentByTag(ConstantData.SignUp_Fragment);
         Fragment ForgotPassword_Fragment = fragmentManager
-                .findFragmentByTag(Constant.ForgotPassword_Fragment);
+                .findFragmentByTag(ConstantData.ForgotPassword_Fragment);
 
 
         if (SignUp_Fragment != null)

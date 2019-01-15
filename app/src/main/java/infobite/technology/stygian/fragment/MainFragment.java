@@ -17,7 +17,7 @@ import java.util.List;
 
 import infobite.technology.stygian.activity.MainActivity;
 import infobite.technology.stygian.R;
-import infobite.technology.stygian.util.Constant;
+import infobite.technology.stygian.util.ConstantData;
 
 
 @SuppressLint("ValidFragment")
@@ -47,10 +47,10 @@ public class MainFragment extends Fragment {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
         adapter.addFragment(new HomeFragment(ctx), "All");
-        adapter.addFragment(new MensFragment(ctx, Constant.MEN), "MEN");
-        adapter.addFragment(new WomensFragment(ctx, Constant.WOMEN), "WOMEN");
-        adapter.addFragment(new KidsFragment(ctx, Constant.KIDS), "KIDS");
-        adapter.addFragment(new MobileFragment(ctx, Constant.MOBILE), "MOBILES");
+        adapter.addFragment(new MensFragment(ctx, ConstantData.MEN), "MEN");
+        adapter.addFragment(new WomensFragment(ctx, ConstantData.WOMEN), "WOMEN");
+        adapter.addFragment(new KidsFragment(ctx, ConstantData.KIDS), "KIDS");
+        adapter.addFragment(new MobileFragment(ctx, ConstantData.MOBILE), "MOBILES");
         viewPager.setAdapter(adapter);
     }
 
