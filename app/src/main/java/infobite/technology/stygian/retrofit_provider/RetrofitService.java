@@ -4,10 +4,12 @@ import android.app.Dialog;
 
 import java.util.concurrent.TimeUnit;
 
-
 import infobite.technology.stygian.constant.Constant;
 import infobite.technology.stygian.model.wallet_responce.WalletModel;
+import infobite.technology.stygian.model.banner_responce.BannerModel;
+import infobite.technology.stygian.util.AppProgressDialog;
 import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -19,8 +21,8 @@ public class RetrofitService {
 
     public static RetrofitApiClient client;
     final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-            .readTimeout(80, TimeUnit.SECONDS)
-            .connectTimeout(80, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .connectTimeout(60, TimeUnit.SECONDS)
             .build();
 
     public RetrofitService() {
@@ -44,29 +46,26 @@ public class RetrofitService {
     public static RetrofitApiClient getRetrofit() {
         if (client == null)
             new RetrofitService();
-
         return client;
     }
 
-    public static void getWallet(final Dialog dialog, final Call<WalletModel> method, final WebResponse webResponse) {
+    public static void getBannerData(final Dialog dialog, final Call<BannerModel> method, final WebResponse webResponse) {
         if (dialog != null)
-            //AppProgressDialog.show(dialog);
-
-        method.enqueue(new Callback<WalletModel>() {
+            AppProgressDialog.show(dialog);
+        method.enqueue(new Callback<BannerModel>() {
             @Override
-            public void onResponse(Call<WalletModel> call, Response<WalletModel> response) {
+            public void onResponse(Call<BannerModel> call, Response<BannerModel> response) {
                 if (dialog != null)
-                   // AppProgressDialog.hide(dialog);
+                    AppProgressDialog.hide(dialog);
                 WebServiceResponse.handleResponse(response, webResponse);
             }
 
             @Override
-            public void onFailure(Call<WalletModel> call, Throwable throwable) {
+            public void onFailure(Call<BannerModel> call, Throwable throwable) {
                 if (dialog != null)
-                   // AppProgressDialog.hide(dialog);
+                    AppProgressDialog.hide(dialog);
                 webResponse.onResponseFailed(throwable.getMessage());
             }
         });
     }
-
 }

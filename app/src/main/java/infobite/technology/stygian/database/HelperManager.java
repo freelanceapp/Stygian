@@ -38,6 +38,7 @@ public class HelperManager {
         v.put(DatabaseConstant.TABLE_WISHLIST_IMAGES_ARRAY, productDetail.getImages_array());
         v.put(DatabaseConstant.TABLE_WISHLIST_ARRTIB, productDetail.getAttributes_array());
         v.put(DatabaseConstant.TABLE_WISHLIST_DESCRIPTION, productDetail.getDescription());
+        v.put(DatabaseConstant.TABLE_WISHLIST_PERMALINK, productDetail.getDescription());
         v.put(DatabaseConstant.TABLE_WISHLIST_QUANTITY, productDetail.getQuantity());
         long isCheck = db.insert(DatabaseConstant.TABLE_NAME_WISHLIST, null, v);
         if (isCheck > 0) {
@@ -71,7 +72,9 @@ public class HelperManager {
             String attribrray = cursor.getString(8);
             String description = cursor.getString(9);
             int qty = cursor.getInt(10);
-            list.add(new ProductDetail(id, name,description, price, regprice, saleprice, htmlprice, image, imgarray, attribrray, qty));
+
+            list.add(new ProductDetail(id, name, description, price, regprice, saleprice, htmlprice, image, imgarray, attribrray,
+                    qty));
         }
         return list;
     }
@@ -112,6 +115,7 @@ public class HelperManager {
         v.put(DatabaseConstant.TABLE_CART_IMAGES_ARRAY, productDetail.getImages_array());
         v.put(DatabaseConstant.TABLE_CART_ARRTIB, productDetail.getAttributes_array());
         v.put(DatabaseConstant.TABLE_CART_DESCRIPTION, productDetail.getDescription());
+        v.put(DatabaseConstant.TABLE_CART_PERMALINK, productDetail.getDescription());
         v.put(DatabaseConstant.TABLE_CART_QUANTITY, productDetail.getQuantity());
         long isCheck = db.insert(DatabaseConstant.TABLE_NAME_CART, null, v);
         if (isCheck > 0) {
@@ -145,7 +149,9 @@ public class HelperManager {
             String attribrray = cursor.getString(8);
             String description = cursor.getString(9);
             int qty = cursor.getInt(10);
-            list.add(new ProductDetail(id, name,description, price, regprice, saleprice, htmlprice, image, imgarray, attribrray, qty));
+
+            list.add(new ProductDetail(id, name, description, price, regprice, saleprice, htmlprice, image, imgarray,
+                    attribrray, qty));
         }
         return list;
     }

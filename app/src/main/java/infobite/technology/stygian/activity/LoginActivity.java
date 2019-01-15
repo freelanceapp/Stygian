@@ -40,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
                     AppPreference.setBooleanPreference(getApplicationContext(), Constant.IS_LOGIN_SKIP, true);
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
+                    finish();
                 });
 
     }

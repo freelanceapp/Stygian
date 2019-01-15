@@ -8,21 +8,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 import infobite.technology.stygian.R;
+import infobite.technology.stygian.constant.Constant;
 
 public class SlidingImage_Adapter1 extends PagerAdapter {
 
-
-    private ArrayList<Integer> IMAGES;
+    private ArrayList<String> IMAGES;
     private LayoutInflater inflater;
     private Context context;
 
-
-    public SlidingImage_Adapter1(Context context,ArrayList<Integer> IMAGES) {
+    public SlidingImage_Adapter1(Context context, ArrayList<String> IMAGES) {
         this.context = context;
-        this.IMAGES=IMAGES;
+        this.IMAGES = IMAGES;
         inflater = LayoutInflater.from(context);
     }
 
@@ -41,14 +42,12 @@ public class SlidingImage_Adapter1 extends PagerAdapter {
         View imageLayout = inflater.inflate(R.layout.slide_show_pager_item, view, false);
 
         assert imageLayout != null;
-        final ImageView imageView = (ImageView) imageLayout
-                .findViewById(R.id.imageView);
-
-
-        imageView.setImageResource(IMAGES.get(position));
-
+        final ImageView imageView = (ImageView) imageLayout.findViewById(R.id.imageView);
+        Picasso.with(context).load(Constant.IMAGE_URL + IMAGES.get(position))
+                .placeholder(R.drawable.default_banner)
+                .error(R.drawable.default_banner)
+                .into(imageView);
         view.addView(imageLayout, 0);
-
         return imageLayout;
     }
 

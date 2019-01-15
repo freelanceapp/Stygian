@@ -2,8 +2,6 @@ package infobite.technology.stygian.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,17 +11,13 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import infobite.technology.stygian.activity.MainActivity;
+import java.util.ArrayList;
+import java.util.List;
+
 import infobite.technology.stygian.R;
 import infobite.technology.stygian.activity.ProductDetailsActivity;
 import infobite.technology.stygian.database.HelperManager;
-import infobite.technology.stygian.fragment.MensFragment;
 import infobite.technology.stygian.model.ProductDetail;
-import infobite.technology.stygian.model.ProductModel;
-
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -33,12 +27,14 @@ import java.util.List;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHolder> {
 
     private List<ProductDetail> list;
+    private ArrayList<String> productLink;
     Context ctx;
     HelperManager helperManager;
     ArrayList<String> fav_id_list;
 
-    public ProductAdapter(List<ProductDetail> moviesList, Context context) {
+    public ProductAdapter(List<ProductDetail> moviesList, Context context, ArrayList<String> productLink) {
         this.list = moviesList;
+        this.productLink = productLink;
         this.ctx = context;
         helperManager = new HelperManager(ctx);
         fav_id_list = helperManager.readAllWishlistID();
@@ -87,15 +83,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
         holder.product_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ctx.startActivity(new Intent(ctx, ProductDetailsActivity.class)
-                        .putExtra("data", list.get(position)));
+                Intent intent = new Intent(ctx, ProductDetailsActivity.class);
+                intent.putExtra("data", list.get(position));
+                intent.putExtra("link", productLink.get(position));
+                ctx.startActivity(intent);
             }
         });
 
         holder.product_fave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if (fav_id_list.contains(product.getId())) {
                     holder.product_fave.setImageResource(R.drawable.fav_disable);
                     helperManager.deletesingleWishlist(product);
