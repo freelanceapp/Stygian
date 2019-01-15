@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class Helper extends SQLiteOpenHelper {
 
     public static String DBName = "stygian";
-    public static int DBVERSION = 2;
+    public static int DBVERSION = 3;
 
     public Helper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -34,7 +34,6 @@ public class Helper extends SQLiteOpenHelper {
                 + DatabaseConstant.TABLE_WISHLIST_IMAGES_ARRAY + " text,"
                 + DatabaseConstant.TABLE_WISHLIST_ARRTIB + " text,"
                 + DatabaseConstant.TABLE_WISHLIST_DESCRIPTION + " text,"
-                + DatabaseConstant.TABLE_WISHLIST_PERMALINK + " text,"
                 + DatabaseConstant.TABLE_WISHLIST_QUANTITY + " INTEGER)");
 
         db.execSQL("Create table " + DatabaseConstant.TABLE_NAME_CART + "(" + DatabaseConstant.TABLE_CART_ID + " text,"
@@ -47,7 +46,6 @@ public class Helper extends SQLiteOpenHelper {
                 + DatabaseConstant.TABLE_CART_IMAGES_ARRAY + " text,"
                 + DatabaseConstant.TABLE_CART_ARRTIB + " text,"
                 + DatabaseConstant.TABLE_CART_DESCRIPTION + " text,"
-                + DatabaseConstant.TABLE_CART_PERMALINK + " text,"
                 + DatabaseConstant.TABLE_CART_QUANTITY + " INTEGER)");
     }
 

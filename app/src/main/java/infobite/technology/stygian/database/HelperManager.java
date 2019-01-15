@@ -38,7 +38,6 @@ public class HelperManager {
         v.put(DatabaseConstant.TABLE_WISHLIST_IMAGES_ARRAY, productDetail.getImages_array());
         v.put(DatabaseConstant.TABLE_WISHLIST_ARRTIB, productDetail.getAttributes_array());
         v.put(DatabaseConstant.TABLE_WISHLIST_DESCRIPTION, productDetail.getDescription());
-        v.put(DatabaseConstant.TABLE_WISHLIST_PERMALINK, productDetail.getDescription());
         v.put(DatabaseConstant.TABLE_WISHLIST_QUANTITY, productDetail.getQuantity());
         long isCheck = db.insert(DatabaseConstant.TABLE_NAME_WISHLIST, null, v);
         if (isCheck > 0) {
@@ -115,7 +114,6 @@ public class HelperManager {
         v.put(DatabaseConstant.TABLE_CART_IMAGES_ARRAY, productDetail.getImages_array());
         v.put(DatabaseConstant.TABLE_CART_ARRTIB, productDetail.getAttributes_array());
         v.put(DatabaseConstant.TABLE_CART_DESCRIPTION, productDetail.getDescription());
-        v.put(DatabaseConstant.TABLE_CART_PERMALINK, productDetail.getDescription());
         v.put(DatabaseConstant.TABLE_CART_QUANTITY, productDetail.getQuantity());
         long isCheck = db.insert(DatabaseConstant.TABLE_NAME_CART, null, v);
         if (isCheck > 0) {
