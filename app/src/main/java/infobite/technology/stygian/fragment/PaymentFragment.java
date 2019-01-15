@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import infobite.technology.stygian.R;
 import infobite.technology.stygian.activity.CheckOutActivity;
+import infobite.technology.stygian.database.DatabaseHandler;
 import infobite.technology.stygian.database.HelperManager;
 import infobite.technology.stygian.util.SessionManager;
 import infobite.technology.stygian.util.Utility;
@@ -31,14 +32,15 @@ public class PaymentFragment extends android.support.v4.app.Fragment implements 
     Activity activity;
 
     SessionManager sessionManager;
-    HelperManager helperManager;
+    public DatabaseHandler databaseCart;
+    private String DATABASE_CART = "cart.db";
 
     @SuppressLint("ValidFragment")
     public PaymentFragment(Context ctx, Activity activity) {
         this.ctx = ctx;
         this.activity = activity;
         sessionManager = new SessionManager(ctx);
-        helperManager = new HelperManager(ctx);
+        databaseCart = new DatabaseHandler(ctx, DATABASE_CART);
     }
 
     @Nullable
@@ -58,14 +60,12 @@ public class PaymentFragment extends android.support.v4.app.Fragment implements 
         next_ll.setOnClickListener(this);
         online_rb.setOnClickListener(this);
         cob_rb.setOnClickListener(this);
-        total_tv.setText(Utility.getTotal(helperManager));
+        total_tv.setText(Utility.getCartTotal(databaseCart));
     }
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
-
             case R.id.ll_payment_next:
                 String paytype = sessionManager.getData(SessionManager.KEY_PAYMENT_TYPE);
                 if (paytype.equals("")) {

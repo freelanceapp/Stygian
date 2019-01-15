@@ -15,7 +15,6 @@ public interface RetrofitApiClient {
     @GET(Constant.ALL_BANNER)
     Call<BannerModel> allCategory();
 
-
     @GET(Constant.WALLET_API)
     Call<WalletModel> getWallet(@Part String user_id);
 

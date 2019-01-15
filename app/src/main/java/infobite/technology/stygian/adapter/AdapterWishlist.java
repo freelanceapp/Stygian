@@ -75,7 +75,12 @@ public class AdapterWishlist extends RecyclerView.Adapter<AdapterWishlist.MyView
         holder.size_tv.setText("Size : S");
         holder.color_tv.setText("Color : Black");
 
-        Picasso.with(context).load(productDetail.getImage()).placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).resize(300, 300).into(holder.pro_image_iv);
+        Picasso.with(context)
+                .load(productDetail.getImage())
+                .placeholder(R.drawable.cart_default_img)
+                .error(R.drawable.cart_default_img)
+                .resize(300, 300)
+                .into(holder.pro_image_iv);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

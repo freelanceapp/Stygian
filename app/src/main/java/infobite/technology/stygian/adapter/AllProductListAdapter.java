@@ -79,8 +79,8 @@ public class AllProductListAdapter extends ArrayAdapter<AllProductMainModal> {
             String strUrl = Datum.getImages().get(0).getSrc();
             Picasso.with(context)
                     .load(strUrl)
-                    .placeholder(R.mipmap.ic_launcher)
-                    .error(R.mipmap.ic_launcher)
+                    .placeholder(R.drawable.cart_default_img)
+                    .error(R.drawable.cart_default_img)
                     .resize(300, 300)
                     .into(holder.pro_image_iv);
         }

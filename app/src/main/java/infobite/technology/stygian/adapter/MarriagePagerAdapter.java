@@ -46,7 +46,10 @@ public class MarriagePagerAdapter extends PagerAdapter {
         imageView.setTag(position);
         imageView.setOnClickListener(onClickListener);
         String strUrl = searchArrayList.get(position);
-        Picasso.with(mContext).load(strUrl).placeholder(R.drawable.img1).into(imageView);
+        Picasso.with(mContext)
+                .load(strUrl)
+                .placeholder(R.drawable.img1)
+                .into(imageView);
         container.addView(itemView);
         return itemView;
     }

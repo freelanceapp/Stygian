@@ -39,8 +39,10 @@ import infobite.technology.stygian.R;
 import infobite.technology.stygian.adapter.ProductAdapter;
 import infobite.technology.stygian.adapter.SlidingImage_Adapter;
 import infobite.technology.stygian.constant.Constant;
+import infobite.technology.stygian.database.DatabaseHandler;
 import infobite.technology.stygian.database.HelperManager;
 import infobite.technology.stygian.model.ProductDetail;
+import infobite.technology.stygian.util.Alerts;
 import infobite.technology.stygian.util.AppPreference;
 import infobite.technology.stygian.util.ConstantData;
 import infobite.technology.stygian.util.Utility;
@@ -70,14 +72,35 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     RecyclerView recommendList;
     String report_id, strProductLink = "";
 
+    private String DATABASE_CART = "cart.db";
+    private String DATABASE_WISHLIST = "wishlist.db";
+    private DatabaseHandler databaseCart, databaseWishlist;
+    private ArrayList<ProductDetail> cartProductList = new ArrayList<>();
+    private ArrayList<ProductDetail> wishlistProductList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
         ctx = this;
+
         cart_count = AppPreference.getIntegerPreference(ctx, Constant.CART_ITEM_COUNT); //0 is the default value.
+        initDatabase();
         initXml();
         getData();
+    }
+
+    private void initDatabase() {
+        productDetail = getIntent().getExtras().getParcelable("data");
+        databaseCart = new DatabaseHandler(ctx, DATABASE_CART);
+        databaseWishlist = new DatabaseHandler(ctx, DATABASE_WISHLIST);
+        cartProductList.clear();
+        if (databaseCart.getContactsCount()) {
+            cartProductList = databaseCart.getAllUrlList();
+        }
+        if (databaseWishlist.getContactsCount()) {
+            wishlistProductList = databaseWishlist.getAllUrlList();
+        }
     }
 
     private void initXml() {
@@ -140,7 +163,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     }
 
     private void getData() {
-        productDetail = getIntent().getExtras().getParcelable("data");
         strProductLink = getIntent().getStringExtra("link");
         title_tv.setText(productDetail.getName());
         name_tv.setText(productDetail.getName());
@@ -296,7 +318,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
     private void addtoWishlist() {
         wish_id_list = helperManager.readAllWishlistID();
-        ProductDetail productDetail = getIntent().getExtras().getParcelable("data");
+        //ProductDetail productDetail = getIntent().getExtras().getParcelable("data");
         if (wish_id_list.contains(productDetail.getId())) {
             Utility.toastView(ctx, "Already Added to Wishlist");
         } else {
@@ -305,22 +327,52 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 Utility.toastView(ctx, "Add to Wishlist");
             }
         }
+        /*********************************************************************************************************/
+       /* if (databaseWishlist.getContactsCount()) {
+            wishlistProductList.addAll(databaseWishlist.getAllUrlList());
+        }
+        if (wishlistProductList.size() > 0) {
+            if (databaseWishlist.verification(productDetail.getId())) {
+                Alerts.show(ctx, "Already added to Wishlist");
+            } else {
+                Alerts.show(ctx, "Added to Wishlist");
+                databaseWishlist.addItemCart(productDetail);
+            }
+        } else {
+            Alerts.show(ctx, "Added to Wishlist");
+            databaseWishlist.addItemCart(productDetail);
+        }*/
     }
 
     private void addtoCart() {
-        ProductDetail productDetail = getIntent().getExtras().getParcelable("data");
-        cart_id_list = helperManager.readAllCartID();
-        if (cart_id_list.contains(productDetail.getId())) {
-            Utility.toastView(ctx, "Already added to Cart");
+        /*********************************************************************************************************/
+        if (databaseCart.getContactsCount()) {
+            cartProductList = databaseCart.getAllUrlList();
+        }
+
+        if (cartProductList.size() > 2) {
+            Alerts.show(ctx, "Cart full");
         } else {
-            productDetail.setSelected_size(selected_size);
-            productDetail.setSelected_color(selected_color);
-            boolean insert = helperManager.insertCart(productDetail);
-            if (insert) {
-                Utility.toastView(ctx, "Add to Cart");
+            if (cartProductList.size() > 0) {
+                if (databaseCart.verification(productDetail.getId())) {
+                    Alerts.show(ctx, "Already added to Cart");
+                } else {
+                    productDetail.setSelected_size(selected_size);
+                    productDetail.setSelected_color(selected_color);
+                    cart_count = cart_count + 1;
+                    cart_number.setText("" + cart_count);
+                    AppPreference.setIntegerPreference(ctx, Constant.CART_ITEM_COUNT, cart_count);
+                    Alerts.show(ctx, "Added to Cart");
+                    databaseCart.addItemCart(productDetail);
+                }
+            } else {
+                productDetail.setSelected_size(selected_size);
+                productDetail.setSelected_color(selected_color);
                 cart_count = cart_count + 1;
-                AppPreference.setIntegerPreference(ctx, Constant.CART_ITEM_COUNT, cart_count);
                 cart_number.setText("" + cart_count);
+                AppPreference.setIntegerPreference(ctx, Constant.CART_ITEM_COUNT, cart_count);
+                Alerts.show(ctx, "Added to Cart");
+                databaseCart.addItemCart(productDetail);
             }
         }
     }

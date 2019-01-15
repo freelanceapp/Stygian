@@ -11,15 +11,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 
 import org.json.JSONArray;
@@ -27,28 +24,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import infobite.technology.stygian.PayPal.PaypalActivity;
 import infobite.technology.stygian.R;
-import infobite.technology.stygian.activity.MainActivity;
-import infobite.technology.stygian.activity.ThankyouActivity;
-import infobite.technology.stygian.adapter.AdapterCart;
 import infobite.technology.stygian.adapter.AdapterConfirmation;
-import infobite.technology.stygian.database.HelperManager;
+import infobite.technology.stygian.database.DatabaseHandler;
 import infobite.technology.stygian.model.ProductDetail;
-import infobite.technology.stygian.retrofit.ApInterface;
-import infobite.technology.stygian.retrofit.response.LineItem;
-import infobite.technology.stygian.retrofit.response.PostOrder;
 import infobite.technology.stygian.util.ConnectionDetector;
 import infobite.technology.stygian.util.SessionManager;
 import infobite.technology.stygian.util.Utility;
 import infobite.technology.stygian.util.WebApi;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 @SuppressLint("ValidFragment")
 public class ConfirmationFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
@@ -59,14 +44,15 @@ public class ConfirmationFragment extends android.support.v4.app.Fragment implem
     LinearLayout ordernow_ll;
     public static String Payment_Package = "";
     SessionManager sessionManager;
-    HelperManager helperManager;
+    public DatabaseHandler databaseCart;
+    private String DATABASE_CART = "cart.db";
     ConnectionDetector connectionDetector;
 
     @SuppressLint("ValidFragment")
     public ConfirmationFragment(Context ctx) {
         this.ctx = ctx;
         sessionManager = new SessionManager(ctx);
-        helperManager = new HelperManager(ctx);
+        databaseCart = new DatabaseHandler(ctx, DATABASE_CART);
     }
 
     @Nullable
@@ -81,7 +67,7 @@ public class ConfirmationFragment extends android.support.v4.app.Fragment implem
 
     private void setOrder() {
 
-        ArrayList<ProductDetail> orderlist = helperManager.readAllCart();
+        ArrayList<ProductDetail> orderlist = databaseCart.getAllUrlList();
         AdapterConfirmation adapter = new AdapterConfirmation(orderlist, ctx);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager manager = new LinearLayoutManager(ctx);
@@ -97,8 +83,8 @@ public class ConfirmationFragment extends android.support.v4.app.Fragment implem
         total_tv = view.findViewById(R.id.tv_confirmation_total);
 
         ordernow_ll.setOnClickListener(this);
-        total_tv.setText(Utility.getTotal(helperManager));
-        Payment_Package = Utility.getTotal(helperManager);
+        total_tv.setText(Utility.getCartTotal(databaseCart));
+        Payment_Package = Utility.getCartTotal(databaseCart);
 
     }
 
@@ -151,7 +137,7 @@ public class ConfirmationFragment extends android.support.v4.app.Fragment implem
 
         try {
             JSONObject paramObject = new JSONObject();
-            paramObject.put("total", Utility.getTotal(helperManager));
+            paramObject.put("total", Utility.getCartTotal(databaseCart));
             paramObject.put("customer_id", sessionManager.getData(SessionManager.KEY_ID));
 
             JSONObject billing_obj = new JSONObject();
@@ -173,7 +159,7 @@ public class ConfirmationFragment extends android.support.v4.app.Fragment implem
             paramObject.put("transaction_id", txnid);
 
             JSONArray line_item_array = new JSONArray();
-            ArrayList<ProductDetail> list = helperManager.readAllCart();
+            ArrayList<ProductDetail> list = databaseCart.getAllUrlList();
             for (int i = 0; i < list.size(); i++) {
 
                 float tot = list.get(i).getQuantity() * Float.parseFloat(list.get(i).getPrice());
@@ -207,10 +193,10 @@ public class ConfirmationFragment extends android.support.v4.app.Fragment implem
                     public void onResponse(JSONObject response) {
                         Utility.hideLoader();
                         Utility.toastView(ctx, "your order has been successfully done");
-                        helperManager.deleteallCart();
+                        databaseCart.deleteallCart(databaseCart);
                         clear();
                         //startActivity(new Intent(ctx, ThankyouActivity.class));
-                        Intent i = new Intent(getActivity(),PaypalActivity.class);
+                        Intent i = new Intent(getActivity(), PaypalActivity.class);
                         getActivity().startActivity(i);
                         getActivity().finish();
                     }

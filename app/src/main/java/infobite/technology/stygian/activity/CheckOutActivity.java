@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import infobite.technology.stygian.R;
+import infobite.technology.stygian.database.DatabaseHandler;
 import infobite.technology.stygian.fragment.ConfirmationFragment;
 import infobite.technology.stygian.fragment.PaymentFragment;
 import infobite.technology.stygian.fragment.ShoppingFragment;
@@ -44,6 +45,8 @@ public class CheckOutActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
+    public DatabaseHandler databaseCart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +144,6 @@ public class CheckOutActivity extends AppCompatActivity {
     }
 
     public void setPosition(int position) {
-
         viewPager.setCurrentItem(position);
     }
 
@@ -173,6 +175,4 @@ public class CheckOutActivity extends AppCompatActivity {
             return mFragmentTitleList.get(position);
         }
     }
-
-
 }

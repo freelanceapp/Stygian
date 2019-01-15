@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -22,6 +24,7 @@ import infobite.technology.stygian.activity.LoginActivity;
 import infobite.technology.stygian.activity.MainActivity;
 import infobite.technology.stygian.adapter.AdapterCart;
 import infobite.technology.stygian.constant.Constant;
+import infobite.technology.stygian.database.DatabaseHandler;
 import infobite.technology.stygian.database.HelperManager;
 import infobite.technology.stygian.model.ProductDetail;
 import infobite.technology.stygian.util.AppPreference;
@@ -44,6 +47,11 @@ public class CartFragment extends Fragment implements View.OnClickListener {
     SessionManager sessionManager;
     Activity activity;
 
+    private String DATABASE_CART = "cart.db";
+    public DatabaseHandler databaseCart;
+    private ArrayList<ProductDetail> cartProductList = new ArrayList<>();
+    private AdapterCart adapterCart;
+
     public CartFragment(Context ctx, Activity activity) {
         this.ctx = ctx;
         this.activity = activity;
@@ -59,23 +67,32 @@ public class CartFragment extends Fragment implements View.OnClickListener {
         place_bt = view.findViewById(R.id.bt_wishlist_placeorder);
 
         list = helperManager.readAllCart();
-        AdapterCart adapterCart = new AdapterCart(list, ctx, CartFragment.this, this);
+        place_bt.setVisibility(View.VISIBLE);
+        place_bt.setOnClickListener(this);
+
+        initDatabase();
+        setTotal();
+        return view;
+    }
+
+    private void initDatabase() {
+        databaseCart = new DatabaseHandler(ctx, DATABASE_CART);
+        cartProductList.clear();
+        if (databaseCart.getContactsCount()) {
+            cartProductList.addAll(databaseCart.getAllUrlList());
+        }
+
+        adapterCart = new AdapterCart(cartProductList, ctx, CartFragment.this, this, databaseCart);
         LinearLayoutManager layoutManager = new LinearLayoutManager(ctx);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapterCart);
-
-        place_bt.setVisibility(View.VISIBLE);
-        place_bt.setOnClickListener(this);
-
-        setTotal();
-        return view;
     }
 
     public void setTotal() {
         float total = 0;
-        ArrayList<ProductDetail> total_list = helperManager.readAllCart();
+        ArrayList<ProductDetail> total_list = databaseCart.getAllUrlList();
         cart_number.setText("" + total_list.size());
         AppPreference.setIntegerPreference(ctx, Constant.CART_ITEM_COUNT, total_list.size());
         for (int i = 0; i < total_list.size(); i++) {
@@ -92,7 +109,7 @@ public class CartFragment extends Fragment implements View.OnClickListener {
     public String getTotal() {
         float total = 0;
         float round_total = 0;
-        ArrayList<ProductDetail> total_list = helperManager.readAllCart();
+        ArrayList<ProductDetail> total_list = databaseCart.getAllUrlList();
         cart_number.setText(total_list.size());
         AppPreference.setIntegerPreference(ctx, Constant.CART_ITEM_COUNT, total_list.size());
         for (int i = 0; i < total_list.size(); i++) {
@@ -114,12 +131,66 @@ public class CartFragment extends Fragment implements View.OnClickListener {
                     startActivity(new Intent(ctx, LoginActivity.class));
                     getActivity().finish();
                 } else {
-                    ArrayList<ProductDetail> cartlist = helperManager.readAllCart();
+                    ArrayList<ProductDetail> cartlist = databaseCart.getAllUrlList();
                     if (cartlist.size() > 0) {
                         startActivity(new Intent(ctx, CheckOutActivity.class));
                     }
                 }
                 break;
+            case R.id.iv_adpcart_minus:
+                minusItem(view);
+                break;
+            case R.id.iv_adpcart_plus:
+                plusItem(view);
+                break;
         }
+    }
+
+    private void plusItem(View view) {
+        int pos = Integer.parseInt(view.getTag().toString());
+        ProductDetail productDetail = cartProductList.get(pos);
+        View v = recyclerView.getChildAt(pos);
+        TextView tvQty = (TextView) v.findViewById(R.id.tv_adpcart_qty);
+        ImageView minus_iv = (ImageView) v.findViewById(R.id.iv_adpcart_minus);
+
+        int qty = Integer.parseInt(tvQty.getText().toString());
+        qty++;
+        productDetail.setQuantity(qty);
+        databaseCart.updateUrl(productDetail);
+        tvQty.setText(qty + "");
+        setTotal();
+        if (qty > 1) {
+            minus_iv.setImageResource(R.drawable.ic_minus);
+        } else {
+            minus_iv.setImageResource(R.drawable.ic_delete);
+        }
+        AppPreference.setIntegerPreference(ctx, Constant.CART_ITEM_COUNT, cartProductList.size());
+    }
+
+    private void minusItem(View view) {
+        int pos = Integer.parseInt(view.getTag().toString());
+        ProductDetail productDetail = cartProductList.get(pos);
+        View v = recyclerView.getChildAt(pos);
+        TextView tvQty = (TextView) v.findViewById(R.id.tv_adpcart_qty);
+        ImageView minus_iv = (ImageView) v.findViewById(R.id.iv_adpcart_minus);
+
+        int qty = Integer.parseInt(tvQty.getText().toString());
+        if (qty == 1) {
+            databaseCart.deleteContact(productDetail);
+            cartProductList.remove(pos);
+            adapterCart.notifyDataSetChanged();
+        } else {
+            qty--;
+            productDetail.setQuantity(qty);
+            databaseCart.updateUrl(productDetail);
+            tvQty.setText(qty + "");
+        }
+        if (qty > 1) {
+            minus_iv.setImageResource(R.drawable.ic_minus);
+        } else {
+            minus_iv.setImageResource(R.drawable.ic_delete);
+        }
+        setTotal();
+        AppPreference.setIntegerPreference(ctx, Constant.CART_ITEM_COUNT, list.size());
     }
 }

@@ -33,7 +33,7 @@ public class AdapterConfirmation extends RecyclerView.Adapter<AdapterConfirmatio
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView name_tv, size_tv, color_tv, price_tv, qty_tv;
+        TextView name_tv, size_tv, color_tv, price_tv, qty_tv,tv_adpcart_edit;
         ImageView pro_image_iv, plus_iv, minus_iv;
 
         public MyViewHolder(View view) {
@@ -43,12 +43,12 @@ public class AdapterConfirmation extends RecyclerView.Adapter<AdapterConfirmatio
             color_tv = view.findViewById(R.id.tv_adpcart_color);
             price_tv = view.findViewById(R.id.tv_adpcart_price);
             qty_tv = view.findViewById(R.id.tv_adpcart_qty);
+            tv_adpcart_edit = view.findViewById(R.id.tv_adpcart_edit);
 
             pro_image_iv = view.findViewById(R.id.iv_adpcart_image);
             plus_iv = view.findViewById(R.id.iv_adpcart_plus);
             minus_iv = view.findViewById(R.id.iv_adpcart_minus);
         }
-
     }
 
     @Override
@@ -67,8 +67,14 @@ public class AdapterConfirmation extends RecyclerView.Adapter<AdapterConfirmatio
         holder.color_tv.setText("Color : " + productDetail.getSelected_color());
         holder.qty_tv.setText(list.get(position).getQuantity() + "");
 
-        Picasso.with(context).load(productDetail.getImage()).placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).resize(300, 300).into(holder.pro_image_iv);
+        Picasso.with(context)
+                .load(productDetail.getImage())
+                .placeholder(R.drawable.cart_default_img)
+                .error(R.drawable.cart_default_img)
+                .resize(300, 300)
+                .into(holder.pro_image_iv);
 
+        holder.tv_adpcart_edit.setVisibility(View.GONE);
         holder.plus_iv.setVisibility(View.GONE);
         holder.minus_iv.setVisibility(View.GONE);
     }

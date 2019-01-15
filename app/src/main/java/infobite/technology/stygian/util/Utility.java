@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import infobite.technology.stygian.R;
 import infobite.technology.stygian.activity.MainActivity;
+import infobite.technology.stygian.database.DatabaseHandler;
 import infobite.technology.stygian.database.HelperManager;
 import infobite.technology.stygian.model.ProductDetail;
 
@@ -46,6 +47,20 @@ public class Utility {
         float total = 0;
         float round_total = 0;
         ArrayList<ProductDetail> total_list = helperManager.readAllCart();
+        for (int i = 0; i < total_list.size(); i++) {
+            float pr = Float.parseFloat(total_list.get(i).getPrice());
+            int qty = total_list.get(i).getQuantity();
+            float tot = pr * qty;
+            total += tot;
+            round_total = Math.round(total);
+        }
+        return String.valueOf(round_total);
+    }
+
+    public static String getCartTotal(DatabaseHandler handler) {
+        float total = 0;
+        float round_total = 0;
+        ArrayList<ProductDetail> total_list = handler.getAllUrlList();
         for (int i = 0; i < total_list.size(); i++) {
             float pr = Float.parseFloat(total_list.get(i).getPrice());
             int qty = total_list.get(i).getQuantity();

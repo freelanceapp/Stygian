@@ -30,11 +30,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import infobite.technology.stygian.R;
-import infobite.technology.stygian.constant.Constant;
+import infobite.technology.stygian.database.DatabaseHandler;
 import infobite.technology.stygian.database.HelperManager;
 import infobite.technology.stygian.fragment.CartFragment;
 import infobite.technology.stygian.model.ProductDetail;
-import infobite.technology.stygian.util.AppPreference;
 import infobite.technology.stygian.util.Utility;
 import infobite.technology.stygian.util.WebApi;
 
@@ -52,12 +51,15 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.MyViewHolder> 
     TextView select_col, select_size;
     RadioGroup color_radiogroup, size_radiogroup;
     private View.OnClickListener onClickListener;
+    public DatabaseHandler databaseCart;
 
-    public AdapterCart(ArrayList<ProductDetail> list, Context context, CartFragment fragment, View.OnClickListener onClickListener) {
+    public AdapterCart(ArrayList<ProductDetail> list, Context context, CartFragment fragment, View.OnClickListener onClickListener,
+                       DatabaseHandler databaseCart) {
         this.list = list;
         this.onClickListener = onClickListener;
         this.context = context;
         this.fragment = fragment;
+        this.databaseCart = databaseCart;
         helperManager = new HelperManager(context);
     }
 
@@ -100,7 +102,12 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.MyViewHolder> 
         holder.color_tv.setText("Color : " + productDetail.getSelected_color());
         holder.qty_tv.setText(list.get(position).getQuantity() + "");
 
-        Picasso.with(context).load(productDetail.getImage()).placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).resize(300, 300).into(holder.pro_image_iv);
+        Picasso.with(context)
+                .load(productDetail.getImage())
+                .placeholder(R.drawable.cart_default_img)
+                .error(R.drawable.cart_default_img)
+                .resize(300, 300)
+                .into(holder.pro_image_iv);
 
         int qty = Integer.parseInt(holder.qty_tv.getText().toString());
         if (qty > 1) {
@@ -114,7 +121,7 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.MyViewHolder> 
             public void onClick(View v) {
                 proposition = position;
                 Toast.makeText(context, "id" + position, Toast.LENGTH_SHORT).show();
-                showDialog();
+                showDialog(position);
             }
         });
 
@@ -122,46 +129,6 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.MyViewHolder> 
         holder.plus_iv.setOnClickListener(onClickListener);
         holder.minus_iv.setTag(position);
         holder.minus_iv.setOnClickListener(onClickListener);
-
-        holder.plus_iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int qty = Integer.parseInt(holder.qty_tv.getText().toString());
-                qty++;
-                helperManager.updateCart(qty, list.get(position).getId());
-                holder.qty_tv.setText(qty + "");
-                ((CartFragment) fragment).setTotal();
-                if (qty > 1) {
-                    holder.minus_iv.setImageResource(R.drawable.ic_minus);
-                } else {
-                    holder.minus_iv.setImageResource(R.drawable.ic_delete);
-                }
-                AppPreference.setIntegerPreference(context, Constant.CART_ITEM_COUNT, list.size());
-            }
-        });
-
-        holder.minus_iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int qty = Integer.parseInt(holder.qty_tv.getText().toString());
-                if (qty == 1) {
-                    helperManager.deletesingleCart(list.get(position));
-                    list.remove(position);
-                    notifyDataSetChanged();
-                } else {
-                    qty--;
-                    helperManager.updateCart(qty, list.get(position).getId());
-                    holder.qty_tv.setText(qty + "");
-                }
-                if (qty > 1) {
-                    holder.minus_iv.setImageResource(R.drawable.ic_minus);
-                } else {
-                    holder.minus_iv.setImageResource(R.drawable.ic_delete);
-                }
-                ((CartFragment) fragment).setTotal();
-                AppPreference.setIntegerPreference(context, Constant.CART_ITEM_COUNT, list.size());
-            }
-        });
     }
 
     @Override
@@ -169,7 +136,7 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.MyViewHolder> 
         return list.size();
     }
 
-    public void showDialog() {
+    public void showDialog(int pos) {
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
@@ -178,9 +145,14 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.MyViewHolder> 
         select_size = dialog.findViewById(R.id.tv_prodetails_selectsize);
         color_radiogroup = dialog.findViewById(R.id.rg_selectcolor);
         size_radiogroup = dialog.findViewById(R.id.rg_selectsize);
-        getdata();
+
+        getdata(pos);
         ImageView proImg = (ImageView) dialog.findViewById(R.id.proImg);
-        Picasso.with(context).load(list.get(proposition).getImage()).placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).resize(300, 300).into(proImg);
+        Picasso.with(context)
+                .load(list.get(proposition).getImage())
+                .placeholder(R.drawable.cart_default_img)
+                .error(R.drawable.cart_default_img)
+                .resize(300, 300).into(proImg);
         TextView tv_prodetails_price1 = (TextView) dialog.findViewById(R.id.tv_prodetails_price1);
         tv_prodetails_price1.setText(list.get(proposition).getPrice());
 
@@ -188,16 +160,13 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.MyViewHolder> 
         bt_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 dialog.dismiss();
             }
         });
         dialog.show();
     }
 
-    public void getdata() {
-        //Utility.showLoader(ctx);
+    public void getdata(int pos) {
         AndroidNetworking.get(WebApi.API_PRODUCT + list.get(proposition).getId())
                 .setTag("test")
                 .setPriority(Priority.MEDIUM)
@@ -205,37 +174,30 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.MyViewHolder> 
                 .getAsString(new StringRequestListener() {
                     @Override
                     public void onResponse(String response) {
-                        //Utility.hideLoader();
-                        setResponse(response);
+                        setResponse(response, pos);
                     }
 
                     @Override
                     public void onError(ANError anError) {
-                        //Utility.hideLoader();
                         Utility.toastView(context, anError.toString());
                     }
                 });
     }
 
-    private void setResponse(String response) {
-
+    private void setResponse(String response, int pos) {
         try {
             JSONObject object = new JSONObject(response);
             String id = object.getString("id");
             String name = object.getString("name");
-
             Log.e("Name", name);
             JSONArray attri_array = object.getJSONArray("attributes");
-
-            getAttibute(attri_array.toString());
+            getAttibute(attri_array.toString(), pos);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
     }
 
-    private void getAttibute(String attributes_array) {
+    private void getAttibute(String attributes_array, int pos) {
         ArrayList<String> color_list = new ArrayList<>();
         ArrayList<String> size_list = new ArrayList<>();
         try {
@@ -262,15 +224,14 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.MyViewHolder> 
                         }
                     }
                 }
-                setAttribute(color_list, size_list);
+                setAttribute(color_list, size_list, pos);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-
-    private void setAttribute(ArrayList<String> color_list, ArrayList<String> size_list) {
+    private void setAttribute(ArrayList<String> color_list, ArrayList<String> size_list, int pos) {
         if (color_list.size() > 0) {
             select_col.setVisibility(View.VISIBLE);
             for (int i = 0; i < color_list.size(); i++) {
@@ -286,13 +247,12 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.MyViewHolder> 
                 textView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //  textView.setBackgroundResource(R.drawable.x_attribute_selected_bg);
                         String text = textView.getText().toString();
-                        //color_tv.setVisibility(View.VISIBLE);
-                        // color_tv.setText("Selected Color : " + text);
-                        //selected_color = text;
                         Toast.makeText(context, "Color " + text, Toast.LENGTH_SHORT).show();
                         color_tv.setText("" + text);
+                        ProductDetail productDetail = list.get(pos);
+                        productDetail.setSelected_color(text);
+                        databaseCart.updateUrl(productDetail);
                     }
                 });
             }
@@ -313,15 +273,14 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.MyViewHolder> 
                     @Override
                     public void onClick(View v) {
                         String text = textView.getText().toString();
-                        //size_tv.setVisibility(View.VISIBLE);
-                        // selected_size = text;
-                        // size_tv.setText("Selected Size : " + text);
                         Toast.makeText(context, "Size " + text, Toast.LENGTH_SHORT).show();
                         size_tv.setText("" + text);
+                        ProductDetail productDetail = list.get(pos);
+                        productDetail.setSelected_size(text);
+                        databaseCart.updateUrl(productDetail);
                     }
                 });
             }
         }
     }
-
 }

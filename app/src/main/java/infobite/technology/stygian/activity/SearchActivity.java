@@ -2,15 +2,20 @@ package infobite.technology.stygian.activity;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,6 +23,7 @@ import java.util.List;
 
 import infobite.technology.stygian.R;
 import infobite.technology.stygian.adapter.AllProductListAdapter;
+import infobite.technology.stygian.model.ProductDetail;
 import infobite.technology.stygian.model.all_product_modal.AllProductMainModal;
 import infobite.technology.stygian.retrofit_provider.RetrofitApiClient;
 import infobite.technology.stygian.retrofit_provider.RetrofitService;
@@ -30,7 +36,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     private Context mContext;
     private AllProductListAdapter customerListAdapter;
-    private List<AllProductMainModal> productList = new ArrayList<>();
     private List<AllProductMainModal> customerUserList = new ArrayList<>();
     private NetworkDetector networkDetector;
     private RetrofitApiClient retrofitApiClient;
@@ -55,18 +60,17 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         allProductApi();
         searchInit();
+        sendProductDetail();
     }
 
-   private void allProductApi() {
+    private void allProductApi() {
         if (networkDetector.isNetworkAvailable()) {
             RetrofitService.getAllProduct(new Dialog(mContext), retrofitApiClient.allProductList(), new WebResponse() {
                 @Override
                 public void onResponseSuccess(Response<?> result) {
-                    productList.clear();
-                    productList.addAll((Collection<? extends AllProductMainModal>) result.body());
-
                     customerUserList.clear();
-                    customerUserList.addAll(productList);
+                    customerUserList.addAll((Collection<? extends AllProductMainModal>) result.body());
+
                     customerListAdapter = new AllProductListAdapter(mContext, R.layout.row_product_item, customerUserList);
                     listViewSearchItem.setAdapter(customerListAdapter);
                     customerListAdapter.notifyDataSetChanged();
@@ -108,5 +112,34 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.backBtn:
                 break;
         }
+    }
+
+    private void sendProductDetail() {
+        listViewSearchItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                AllProductMainModal allProductMainModal = customerUserList.get(i);
+
+                Gson gson = new GsonBuilder().setLenient().create();
+                String attributeArray = gson.toJson(allProductMainModal.getAttributes());
+
+                String strImageArray = "";
+                String strImage = "";
+                if (allProductMainModal.getImages().size() > 0) {
+                    strImageArray = gson.toJson(allProductMainModal.getImages());
+                    strImage = allProductMainModal.getImages().get(0).getSrc();
+                }
+
+                ProductDetail productDetail = new ProductDetail(String.valueOf(allProductMainModal.getId()), allProductMainModal.getName(),
+                        allProductMainModal.getDescription(), allProductMainModal.getPrice(), allProductMainModal.getRegularPrice(),
+                        allProductMainModal.getSalePrice(), allProductMainModal.getPriceHtml(), strImage, strImageArray,
+                        attributeArray, 1);
+
+                Intent intent = new Intent(mContext, ProductDetailsActivity.class);
+                intent.putExtra("data", productDetail);
+                intent.putExtra("link", allProductMainModal.getPermalink());
+                startActivity(intent);
+            }
+        });
     }
 }

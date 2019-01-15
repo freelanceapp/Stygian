@@ -57,7 +57,6 @@ public class ShoppingFragment extends android.support.v4.app.Fragment implements
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_shopping, null);
         initXml(view);
         setData();
@@ -89,9 +88,7 @@ public class ShoppingFragment extends android.support.v4.app.Fragment implements
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
-
             case R.id.ll_shopping_continuepay:
                 getData();
                 break;

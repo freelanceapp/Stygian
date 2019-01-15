@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 public class ProductDetail implements Parcelable {
 
+    private int keyId;
     private String id;
     private String name;
     private String price;
@@ -18,10 +19,27 @@ public class ProductDetail implements Parcelable {
     private String description;
 
     public ProductDetail() {
-        
+
     }
 
-    public ProductDetail(String id, String name, String description, String price, String reg_price, String sale_price, String html_price, String image, String images_array, String attributes_array, int quantity) {
+    public ProductDetail(int keyId, String id, String name, String description, String price, String reg_price, String sale_price,
+                         String html_price, String image, String images_array, String attributes_array, int quantity) {
+        this.keyId = keyId;
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.reg_price = reg_price;
+        this.selected_size = sale_price;
+        this.selected_color = html_price;
+        this.image = image;
+        this.images_array = images_array;
+        this.attributes_array = attributes_array;
+        this.quantity = quantity;
+    }
+
+    public ProductDetail(String id, String name, String description, String price, String reg_price, String sale_price,
+                         String html_price, String image, String images_array, String attributes_array, int quantity) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -47,6 +65,7 @@ public class ProductDetail implements Parcelable {
         images_array = in.readString();
         attributes_array = in.readString();
         quantity = in.readInt();
+        keyId = in.readInt();
     }
 
     public String getDescription() {
@@ -149,6 +168,14 @@ public class ProductDetail implements Parcelable {
         this.quantity = quantity;
     }
 
+    public int getKeyId() {
+        return keyId;
+    }
+
+    public void setKeyId(int keyId) {
+        this.keyId = keyId;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -167,5 +194,6 @@ public class ProductDetail implements Parcelable {
         parcel.writeString(images_array);
         parcel.writeString(attributes_array);
         parcel.writeInt(quantity);
+        parcel.writeInt(keyId);
     }
 }
