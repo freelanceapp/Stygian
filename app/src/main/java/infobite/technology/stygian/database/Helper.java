@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class Helper extends SQLiteOpenHelper {
 
     public static String DBName = "stygian";
-    public static int DBVERSION = 2;
+    public static int DBVERSION = 3;
 
     public Helper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
