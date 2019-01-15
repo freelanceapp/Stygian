@@ -2,9 +2,11 @@ package infobite.technology.stygian.retrofit_provider;
 
 import android.app.Dialog;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import infobite.technology.stygian.constant.Constant;
+import infobite.technology.stygian.model.all_product_modal.AllProductMainModal;
 import infobite.technology.stygian.model.banner_responce.BannerModel;
 import infobite.technology.stygian.util.AppProgressDialog;
 import okhttp3.OkHttpClient;
@@ -61,6 +63,26 @@ public class RetrofitService {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable throwable) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                webResponse.onResponseFailed(throwable.getMessage());
+            }
+        });
+    }
+
+    public static void getAllProduct(final Dialog dialog, final Call<List<AllProductMainModal>> method, final WebResponse webResponse) {
+        if (dialog != null)
+            AppProgressDialog.show(dialog);
+        method.enqueue(new Callback<List<AllProductMainModal>>() {
+            @Override
+            public void onResponse(Call<List<AllProductMainModal>> call, Response<List<AllProductMainModal>> response) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                WebServiceResponse.handleResponse(response, webResponse);
+            }
+
+            @Override
+            public void onFailure(Call<List<AllProductMainModal>> call, Throwable throwable) {
                 if (dialog != null)
                     AppProgressDialog.hide(dialog);
                 webResponse.onResponseFailed(throwable.getMessage());

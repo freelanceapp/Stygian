@@ -13,11 +13,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import infobite.technology.stygian.R;
 import infobite.technology.stygian.adapter.AllProductListAdapter;
-import infobite.technology.stygian.model.all_product_modal.ProductList;
+import infobite.technology.stygian.model.all_product_modal.AllProductMainModal;
 import infobite.technology.stygian.retrofit_provider.RetrofitApiClient;
 import infobite.technology.stygian.retrofit_provider.RetrofitService;
 import infobite.technology.stygian.retrofit_provider.WebResponse;
@@ -29,9 +30,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     private Context mContext;
     private AllProductListAdapter customerListAdapter;
-    private List<ProductList> customerUserList = new ArrayList<>();
+    private List<AllProductMainModal> productList = new ArrayList<>();
+    private List<AllProductMainModal> customerUserList = new ArrayList<>();
     private NetworkDetector networkDetector;
     private RetrofitApiClient retrofitApiClient;
+    private ListView listViewSearchItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,18 +51,24 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         setSupportActionBar(toolbar);
         ((ImageView) findViewById(R.id.backBtn)).setOnClickListener(this);
 
-        customerListAdapter = new AllProductListAdapter(mContext, R.layout.row_product_item, customerUserList);
-        ListView listViewSearchItem = (ListView) findViewById(R.id.listViewSearchItem);
-        listViewSearchItem.setAdapter(customerListAdapter);
+        listViewSearchItem = (ListView) findViewById(R.id.listViewSearchItem);
 
+        allProductApi();
         searchInit();
     }
 
     private void allProductApi() {
         if (networkDetector.isNetworkAvailable()) {
-            RetrofitService.getResponseBody(new Dialog(mContext), retrofitApiClient.allProductList(), new WebResponse() {
+            RetrofitService.getAllProduct(new Dialog(mContext), retrofitApiClient.allProductList(), new WebResponse() {
                 @Override
                 public void onResponseSuccess(Response<?> result) {
+                    productList.clear();
+                    productList.addAll((Collection<? extends AllProductMainModal>) result.body());
+
+                    customerUserList.clear();
+                    customerUserList.addAll(productList);
+                    customerListAdapter = new AllProductListAdapter(mContext, R.layout.row_product_item, customerUserList);
+                    listViewSearchItem.setAdapter(customerListAdapter);
                     customerListAdapter.notifyDataSetChanged();
                 }
 

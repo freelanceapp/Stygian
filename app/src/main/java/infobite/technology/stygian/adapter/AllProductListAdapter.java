@@ -8,22 +8,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import infobite.technology.stygian.R;
-import infobite.technology.stygian.model.all_product_modal.ProductList;
+import infobite.technology.stygian.model.all_product_modal.AllProductMainModal;
 
-public class AllProductListAdapter extends ArrayAdapter<ProductList> {
+public class AllProductListAdapter extends ArrayAdapter<AllProductMainModal> {
 
-    private List<ProductList> originalList;
-    private List<ProductList> DatumList;
+    private List<AllProductMainModal> originalList;
+    private List<AllProductMainModal> DatumList;
     private DatumFilter filter;
     private Context context;
 
-    public AllProductListAdapter(Context context, int textViewResourceId, List<ProductList> DatumList) {
+    public AllProductListAdapter(Context context, int textViewResourceId, List<AllProductMainModal> DatumList) {
         super(context, textViewResourceId, DatumList);
         this.DatumList = new ArrayList<>();
         this.DatumList.addAll(DatumList);
@@ -55,19 +59,38 @@ public class AllProductListAdapter extends ArrayAdapter<ProductList> {
             }
             holder = new ViewHolder();
             if (convertView != null) {
-                holder.txtCityList = (TextView) convertView.findViewById(R.id.txtCustomerName);
+                holder.name_tv = convertView.findViewById(R.id.tv_adpcart_name);
+                holder.size_tv = convertView.findViewById(R.id.tv_adpcart_size);
+                holder.color_tv = convertView.findViewById(R.id.tv_adpcart_color);
+                holder.price_tv = convertView.findViewById(R.id.tv_adpcart_price);
+                holder.qty_tv = convertView.findViewById(R.id.tv_adpcart_qty);
+
+                holder.pro_image_iv = convertView.findViewById(R.id.iv_adpcart_image);
             }
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        ProductList Datum = DatumList.get(position);
-        holder.txtCityList.setText(Datum.getNamePostcode());
+        AllProductMainModal Datum = DatumList.get(position);
+        holder.name_tv.setText(Datum.getName());
+        holder.price_tv.setText("₹ " + Datum.getPrice());
+
+        if (Datum.getImages().size() > 0) {
+            String strUrl = Datum.getImages().get(0).getSrc();
+            Picasso.with(context)
+                    .load(strUrl)
+                    .placeholder(R.mipmap.ic_launcher)
+                    .error(R.mipmap.ic_launcher)
+                    .resize(300, 300)
+                    .into(holder.pro_image_iv);
+        }
         return convertView;
     }
 
     private class ViewHolder {
-        TextView txtCityList;
+        TextView name_tv, size_tv, color_tv, price_tv, qty_tv;
+        ImageView pro_image_iv, plus_iv, minus_iv;
+        RelativeLayout ll_adpcart_action;
     }
 
     private class DatumFilter extends Filter {
@@ -77,11 +100,11 @@ public class AllProductListAdapter extends ArrayAdapter<ProductList> {
             constraint = constraint.toString().toLowerCase();
             FilterResults result = new FilterResults();
             if (constraint != null && constraint.toString().length() > 0) {
-                ArrayList<ProductList> filteredItems = new ArrayList<ProductList>();
+                ArrayList<AllProductMainModal> filteredItems = new ArrayList<AllProductMainModal>();
 
                 for (int i = 0, l = originalList.size(); i < l; i++) {
-                    ProductList Datum = originalList.get(i);
-                    if (Datum.getNamePostcode().toLowerCase().contains(constraint))
+                    AllProductMainModal Datum = originalList.get(i);
+                    if (Datum.getName().toLowerCase().contains(constraint))
                         filteredItems.add(Datum);
                 }
                 result.count = filteredItems.size();
@@ -99,7 +122,7 @@ public class AllProductListAdapter extends ArrayAdapter<ProductList> {
         @Override
         protected void publishResults(CharSequence constraint,
                                       FilterResults results) {
-            DatumList = (ArrayList<ProductList>) results.values;
+            DatumList = (ArrayList<AllProductMainModal>) results.values;
             notifyDataSetChanged();
             clear();
             for (int i = 0, l = DatumList.size(); i < l; i++)

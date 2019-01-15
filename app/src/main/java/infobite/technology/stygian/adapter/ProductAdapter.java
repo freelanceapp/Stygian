@@ -85,7 +85,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
             public void onClick(View view) {
                 Intent intent = new Intent(ctx, ProductDetailsActivity.class);
                 intent.putExtra("data", list.get(position));
-                intent.putExtra("link", productLink.get(position));
+                if (productLink.size() == list.size()) {
+                    intent.putExtra("link", productLink.get(position));
+                } else if (productLink.size() < list.size() && productLink.size() > 0) {
+                    intent.putExtra("link", productLink.get(0));
+                }
                 ctx.startActivity(intent);
             }
         });

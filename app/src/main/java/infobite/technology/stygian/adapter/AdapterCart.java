@@ -101,6 +101,7 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.MyViewHolder> 
                 }
             }
         });
+
         holder.minus_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
