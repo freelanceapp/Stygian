@@ -3,42 +3,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical">
+
         <LinearLayout
+            android:id="@+id/offer_layout"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="100dp"
             android:background="@color/light_grey"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:text="Promo Code"
                 android:textColor="@color/black"
-                android:textSize="16dp" />
+                android:textSize="14dp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="45sp"
                 android:layout_margin="15dp"
                 android:orientation="horizontal">
+
                 <EditText
+                    android:id="@+id/EtcouponCode"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
+                    android:layout_marginRight="4sp"
                     android:layout_weight="1"
-                    android:background="@drawable/et_border_left" />
+                    android:background="@drawable/et_border_left"
+                    android:paddingLeft="10sp" />
 
                 <Button
+                    android:id="@+id/couponCodeBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:background="@drawable/x_attribute_bg"
                     android:text="Apply"
-                    android:textColor="@color/colorWhite" />
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -54,6 +65,7 @@
                 android:layout_gravity="start"
                 android:layout_margin="4dp"
                 android:layout_marginLeft="25dp"
+                android:checked="true"
                 android:drawableLeft="@drawable/cash"
                 android:drawablePadding="7dp"
                 android:layoutDirection="rtl"
@@ -66,27 +78,50 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/light_grey" />
-            <RadioButton
-                android:id="@+id/rb_payment_credit"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="start"
-                android:layout_margin="4dp"
-                android:layout_marginStart="25dp"
-                android:drawableLeft="@drawable/cards"
-                android:drawablePadding="7dp"
-                android:layoutDirection="rtl"
-                android:padding="10dp"
-                android:visibility="gone"
-                android:text="  Credit / Debit cards"
-                android:textAlignment="textStart"
-                android:textSize="16sp" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/light_grey" />
         </RadioGroup>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_offer_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height=".8sp"
+        android:background="@color/black" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Offer"
+            android:textColor="@color/black"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tv_payment_offer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height=".5sp"
+        android:background="@color/black" />
 
     <LinearLayout
         android:layout_width="match_parent"

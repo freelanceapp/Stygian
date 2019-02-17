@@ -141,7 +141,8 @@ India 5-10 Business Days " />
                 android:id="@+id/moreBtn"
                 android:textSize="16sp"
                 android:padding="8sp"
-                android:layout_marginBottom="20dp"/>
+                android:layout_marginBottom="20dp"
+                android:visibility="gone"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

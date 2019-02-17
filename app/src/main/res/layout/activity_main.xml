@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="infobite.technology.stygian.activity.MainActivity">
+    tools:context="com.infobite.stygian.activity.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -50,7 +50,8 @@
                     android:layout_marginRight="10dp"
                     android:layout_toLeftOf="@+id/rlCart"
                     android:src="@drawable/search"
-                    android:tint="@android:color/white" />
+                    android:tint="@android:color/white"
+                    android:visibility="gone"/>
 
                 <RelativeLayout
                     android:id="@+id/rlCart"
@@ -76,10 +77,9 @@
                         android:id="@+id/cart_btn"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/ic_shopping_cart_black_24dp" />
+                        android:src="@drawable/icon_cart1"
+                        android:tint="@color/colorWhite"/>
                 </RelativeLayout>
-
-
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>
 

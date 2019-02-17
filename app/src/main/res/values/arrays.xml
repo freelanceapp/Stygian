@@ -8,11 +8,25 @@
         <item>KIDS</item>
         <item>HOME APPLIANCES</item>
         <item>Wish List</item>
-        <item>Wallet</item>
+        <item>Add To Cart</item>
         <item>My Account</item>
         <item>OFFERS</item>
         <item>POLICY</item>
-        <item>Exit</item>
+        <item>LOGOUT</item>
+    </string-array>
+
+    <string-array name="navigation_item">
+        <item>Home</item>
+        <item>MEN</item>
+        <item>WOMEN</item>
+        <item>KIDS</item>
+        <item>HOME APPLIANCES</item>
+        <item>Wish List</item>
+        <item>Add To Cart</item>
+        <item>My Account</item>
+        <item>OFFERS</item>
+        <item>POLICY</item>
+        <item>LOGIN</item>
     </string-array>
 
     <array name="ld_activityScreenIcons">

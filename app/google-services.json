@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1081026766587",
+    "firebase_url": "https://stygian-f5529.firebaseio.com",
+    "project_id": "stygian-f5529",
+    "storage_bucket": "stygian-f5529.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1081026766587:android:22f3855acb8ac28c",
+        "android_client_info": {
+          "package_name": "com.infobite.stygian"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1081026766587-oug1807bae07ct23kttlpsgjvf1asliv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.infobite.stygian",
+            "certificate_hash": "af6e7a438225bb46c5ab7585a31fb59ee4c135dd"
+          }
+        },
+        {
+          "client_id": "1081026766587-9a8a7l3jo1743b00dscfd16qt479m3hf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC18Z9bO1C1m0e7FkTg7FWttmRGZDjViSk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1081026766587-9a8a7l3jo1743b00dscfd16qt479m3hf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

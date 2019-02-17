@@ -48,6 +48,9 @@
             android:drawableLeft="@android:drawable/ic_menu_search"
             android:drawablePadding="7dp"
             android:hint="search"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:lines="1"
             android:padding="5dp"
             android:textSize="14sp" />
     </LinearLayout>

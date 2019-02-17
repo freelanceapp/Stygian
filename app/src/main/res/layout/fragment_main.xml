@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorWhite"
-    tools:context="infobite.technology.stygian.fragment.MainFragment"
+    tools:context="com.infobite.stygian.fragment.MainFragment"
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout

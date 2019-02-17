@@ -44,6 +44,6 @@
 
     // my color
     <color name="light_grey">#dedfde</color>
-
+    <color name="transparent_a">#C6313131</color>
 
 </resources>

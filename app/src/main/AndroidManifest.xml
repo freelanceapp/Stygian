@@ -1,50 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="infobite.technology.stygian">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.infobite.stygian">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission. ACCESS_COARSE_LOCATION" />
+
+    <uses-feature android:name="android.hardware.location.gps" />
 
     <application
-        android:name=".util.MyApplication"
+        android:name="com.infobite.stygian.util.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/app"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/app"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-
+        android:theme="@style/AppTheme"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <!-- android:theme="@style/Theme.AppCompat.Light.NoActionBar"> -->
-        <activity android:name=".activity.LoginActivity" />
-        <activity android:name=".activity.CheckOutActivity" />
-        <activity android:name=".activity.SplashActivity">
+        <activity
+            android:name="com.infobite.stygian.activity.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.infobite.stygian.activity.CheckOutActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.infobite.stygian.activity.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.SearchActivity"/>
-        <activity android:name=".activity.PolicyActivity"/>
-        <activity android:name=".activity.SubCategoryActivity" />
-        <activity android:name=".activity.ProductsActivity" />
-        <activity android:name=".activity.ProductDetailsActivity" />
-        <activity android:name=".activity.EditProfileActivity" />
-        <activity android:name=".PayPal.PaypalActivity" />
-        <activity android:name=".PayPal.ConfirmationActivity" />
-        <activity android:name=".activity.WalletActivity" />
-        <activity android:name=".activity.OffersActivity" />
-
-        <!-- razorpay start -->
+        <activity
+            android:name="com.infobite.stygian.activity.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.infobite.stygian.activity.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.infobite.stygian.activity.PolicyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.infobite.stygian.activity.SubCategoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.infobite.stygian.activity.ProductsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.infobite.stygian.activity.ProductDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.infobite.stygian.activity.EditProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.infobite.stygian.PayPal.PaypalActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.infobite.stygian.PayPal.ConfirmationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.infobite.stygian.activity.WalletActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.infobite.stygian.activity.OffersActivity"
+            android:screenOrientation="portrait" /> <!-- razorpay start -->
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_live_ex81NAKuUtjzCL" />
-        <!-- razorpay end -->
+            android:value="rzp_live_ex81NAKuUtjzCL" /> <!-- razorpay end -->
+        <activity
+            android:name="com.infobite.stygian.activity.ThankyouActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.infobite.stygian.activity.OrderDetailsActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.ThankyouActivity" />
-        <activity android:name=".activity.OrderDetailsActivity"></activity>
     </application>
 
 </manifest>
