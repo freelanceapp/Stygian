@@ -31,8 +31,8 @@ public class PaypalActivity extends AppCompatActivity implements View.OnClickLis
     private TextView editTextAmount;
     public static final int PAYPAL_REQUEST_CODE = 7171;
     private String paymentAmount;
-    TextView total_tv, tv_payment;
-    private String totalAmount1;
+    TextView total_tv, tv_payment, tv_offer;
+    private String totalAmount1, strOffer;
     private static PayPalConfiguration config = new PayPalConfiguration()
             // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
             // or live (ENVIRONMENT_PRODUCTION)
@@ -46,6 +46,7 @@ public class PaypalActivity extends AppCompatActivity implements View.OnClickLis
 
         SharedPreferences prefs = getSharedPreferences(mypreference, MODE_PRIVATE);
         totalAmount1 = prefs.getString("total_price", "0");
+        strOffer = prefs.getString("offer_price", "0");
         Intent intent = new Intent(this, PayPalService.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
         startService(intent);
@@ -53,8 +54,10 @@ public class PaypalActivity extends AppCompatActivity implements View.OnClickLis
         editTextAmount = (TextView) findViewById(R.id.editTextAmount);
         editTextAmount.setText("Amount $ " + Payment_Package);
         total_tv = findViewById(R.id.tv_confirmation_total);
+        tv_offer = findViewById(R.id.tv_offer);
         tv_payment = findViewById(R.id.tv_payment);
         total_tv.setText(totalAmount1);
+        tv_offer.setText(strOffer);
         tv_payment.setText(totalAmount1);
         buttonPay.setOnClickListener(this);
     }

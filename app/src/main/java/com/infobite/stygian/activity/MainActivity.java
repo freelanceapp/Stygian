@@ -174,35 +174,44 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
             MainFragment fragment = new MainFragment();
             Utility.setFragment(fragment, ctx, ConstantData.HOME);
             slidingRootNav.closeMenu();
+
         } else if (position == NAV_MEN) {
             startActivity(new Intent(ctx, SubCategoryActivity.class)
                     .putExtra(ConstantData.ACTIVITY_ID, WebApi.ID_SUB_MEN)
                     .putExtra(ConstantData.ACTIVITY_TYPE, ConstantData.MEN));
+
         } else if (position == NAV_WOMEN) {
             startActivity(new Intent(ctx, SubCategoryActivity.class)
                     .putExtra(ConstantData.ACTIVITY_ID, WebApi.ID_SUB_WOMEN)
                     .putExtra(ConstantData.ACTIVITY_TYPE, ConstantData.WOMEN));
+
         } else if (position == NAV_KIDS) {
             startActivity(new Intent(ctx, ProductsActivity.class)
                     .putExtra(ConstantData.ACTIVITY_ID, WebApi.ID_PRODUCTS_KIDS)
                     .putExtra(ConstantData.ACTIVITY_TYPE, ConstantData.KIDS));
+
         } else if (position == NAV_HOME) {
             startActivity(new Intent(ctx, ProductsActivity.class)
                     .putExtra(ConstantData.ACTIVITY_ID, WebApi.ID_PRODUCTS_HOME)
                     .putExtra(ConstantData.ACTIVITY_TYPE, ConstantData.HOME));
+
         } else if (position == NAV_WISHLIST) {
-            tooltext_tv.setText(ConstantData.WISHLIST);
-            WishlistFragment fragment = new WishlistFragment(ctx);
-            Utility.setFragment(fragment, ctx, ConstantData.WISHLIST);
-            slidingRootNav.closeMenu();
+            boolean login = AppPreference.getBooleanPreference(ctx, Constant.IS_LOGIN);
+            if (!login) {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                tooltext_tv.setText(ConstantData.WISHLIST);
+                WishlistFragment fragment = new WishlistFragment(ctx);
+                Utility.setFragment(fragment, ctx, ConstantData.WISHLIST);
+                slidingRootNav.closeMenu();
+            }
 
         } else if (position == NAV_CART) {
-            tooltext_tv.setText(ConstantData.CART);
-            /*CartFragment fragment = new CartFragment(ctx, this);
-            Utility.setFragment(fragment, ctx, ConstantData.CART);*/
-            Intent intent = new Intent(MainActivity.this, WalletActivity.class);
-            startActivity(intent);
+            goOnCart();
             slidingRootNav.closeMenu();
+
         } else if (position == NAV_MYACCOUNT) {
             boolean login = AppPreference.getBooleanPreference(ctx, Constant.IS_LOGIN);
             if (!login) {
@@ -215,18 +224,15 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
                 Utility.setFragment(fragment, ctx, ConstantData.MY_PROFILE);
                 slidingRootNav.closeMenu();
             }
+
         } else if (position == NAV_OFFER) {
             tooltext_tv.setText(ConstantData.OFFERS);
-           /* CartFragment fragment = new CartFragment(ctx, this);
-            Utility.setFragment(fragment, ctx, ConstantData.CART);*/
             Intent intent = new Intent(MainActivity.this, OffersActivity.class);
             startActivity(intent);
             slidingRootNav.closeMenu();
 
         } else if (position == NAV_POLICY) {
             tooltext_tv.setText(ConstantData.POLICY);
-           /* CartFragment fragment = new CartFragment(ctx, this);
-            Utility.setFragment(fragment, ctx, ConstantData.CART);*/
             Intent intent = new Intent(MainActivity.this, PolicyActivity.class);
             startActivity(intent);
             slidingRootNav.closeMenu();
@@ -274,21 +280,22 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
 
     @Override
     public void onClick(View view) {
-
         switch (view.getId()) {
-
             case R.id.cart_btn:
-                tooltext_tv.setText(ConstantData.CART);
-                CartFragment fragment = new CartFragment(ctx, this);
-                Utility.setFragment(fragment, ctx, ConstantData.CART);
+                goOnCart();
                 break;
-
             case R.id.iv_main_logo:
                 tooltext_tv.setText(ConstantData.HOME);
                 HomeFragment allfragment = new HomeFragment();
                 Utility.setFragment(allfragment, ctx, ConstantData.HOME);
                 break;
         }
+    }
+
+    private void goOnCart() {
+        tooltext_tv.setText(ConstantData.CART);
+        CartFragment fragment = new CartFragment(ctx, this);
+        Utility.setFragment(fragment, ctx, ConstantData.CART);
     }
 
     @Override

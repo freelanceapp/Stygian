@@ -154,10 +154,10 @@
                 android:layout_marginBottom="15sp" />
 
             <LinearLayout
-                android:id="@+id/ll_shopping_newadd1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -189,108 +189,100 @@
 
                 </android.support.design.widget.TextInputLayout>
 
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/et_newaddress_number1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Phone Number"
+                        android:inputType="number"
+                        android:maxLength="12"
+                        android:paddingLeft="16dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:orientation="horizontal">
 
                         <EditText
-                            android:id="@+id/et_newaddress_number1"
+                            android:id="@+id/et_newaddress_city1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Phone Number"
-                            android:inputType="number"
-                            android:maxLength="12"
+                            android:hint="City"
+                            android:inputType="text"
                             android:paddingLeft="16dp" />
 
                     </android.support.design.widget.TextInputLayout>
 
-                    <LinearLayout
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
+                        android:layout_weight="1"
                         android:orientation="horizontal">
 
-                        <android.support.design.widget.TextInputLayout
+                        <EditText
+                            android:id="@+id/et_newaddress_state1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
+                            android:hint="State"
+                            android:inputType="text"
+                            android:paddingLeft="16dp" />
 
-                            <EditText
-                                android:id="@+id/et_newaddress_city1"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="City"
-                                android:inputType="text"
-                                android:paddingLeft="16dp" />
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
 
-                        </android.support.design.widget.TextInputLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal">
 
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
-
-                            <EditText
-                                android:id="@+id/et_newaddress_state1"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="State"
-                                android:inputType="text"
-                                android:paddingLeft="16dp" />
-
-                        </android.support.design.widget.TextInputLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
+                        android:layout_weight="1"
                         android:orientation="horizontal">
 
-                        <android.support.design.widget.TextInputLayout
+                        <EditText
+                            android:id="@+id/et_newaddress_country1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
+                            android:hint="Country"
+                            android:inputType="text"
+                            android:paddingLeft="16dp" />
 
-                            <EditText
-                                android:id="@+id/et_newaddress_country1"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Country"
-                                android:inputType="text"
-                                android:paddingLeft="16dp" />
+                    </android.support.design.widget.TextInputLayout>
 
-                        </android.support.design.widget.TextInputLayout>
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
 
-                        <android.support.design.widget.TextInputLayout
+                        <EditText
+                            android:id="@+id/et_newaddress_zipcode1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
+                            android:hint="Zipcode"
+                            android:inputType="text"
+                            android:paddingLeft="16dp" />
 
-                            <EditText
-                                android:id="@+id/et_newaddress_zipcode1"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Zipcode"
-                                android:inputType="text"
-                                android:paddingLeft="16dp" />
-
-                        </android.support.design.widget.TextInputLayout>
-                    </LinearLayout>
+                    </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
 

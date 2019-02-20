@@ -19,9 +19,11 @@ import java.util.ArrayList;
 import com.infobite.stygian.activity.MainActivity;
 import com.infobite.stygian.database.HelperManager;
 import com.infobite.stygian.model.ProductDetail;
+import com.infobite.stygian.util.ConstantData;
+import com.infobite.stygian.util.Utility;
 
 @SuppressLint("ValidFragment")
-public class WishlistFragment extends Fragment {
+public class WishlistFragment extends Fragment implements View.OnClickListener {
 
     Context ctx;
     RecyclerView recyclerView;
@@ -47,7 +49,21 @@ public class WishlistFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(addtoCardAdapter);
-
+        view.findViewById(R.id.btnBack).setOnClickListener(this);
         return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btnBack:
+                onBackClick();
+                break;
+        }
+    }
+
+    private void onBackClick() {
+        HomeFragment homeFragment = new HomeFragment();
+        Utility.setFragment(homeFragment, ctx, ConstantData.HOME);
     }
 }

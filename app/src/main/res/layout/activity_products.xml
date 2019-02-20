@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -40,10 +39,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:layout_marginBottom="5dp"
             android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
             android:layout_marginTop="5dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/x_attribute_bg"
             android:orientation="horizontal">
 
@@ -54,6 +53,8 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/fulltransprent"
                 android:gravity="center_vertical"
+                android:imeOptions="actionDone"
+                android:inputType="textEmailAddress"
                 android:paddingLeft="15dp"
                 android:textSize="12dp" />
 

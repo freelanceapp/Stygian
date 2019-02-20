@@ -43,6 +43,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.infobite.stygian.activity.SplashActivity.mypreference;
@@ -197,28 +198,51 @@ public class PaymentFragment extends android.support.v4.app.Fragment implements 
                     String minimum_amount = object.getString("minimum_amount");
                     String maximum_amount = object.getString("maximum_amount");
 
-                    if (code.equals(offerCode)) {
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-DD");
-                        Date strDate = sdf.parse(date_expires);
-                        if (System.currentTimeMillis() < strDate.getTime()) {
+                    if (code.equalsIgnoreCase(offerCode)) {
+                        String strSplit[] = date_expires.split("T");
 
-                            Toast.makeText(ctx, "ID " + id + " amount " + amount, Toast.LENGTH_SHORT).show();
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                        Date strDate = sdf.parse(strSplit[0]);
+
+                        long currentTime = System.currentTimeMillis();
+                        long expireTime = strDate.getTime();
+
+                        if (expireTime > currentTime) {
+
                             float amount1 = Float.parseFloat(total_tv.getText().toString());
                             float offer1 = Float.parseFloat(amount);
-                            float total1 = amount1 - offer1;
-                            tv_payment_offer.setText("" + offer1);
-                            total_tv.setText("" + total1);
-                            SharedPreferences.Editor editor = getActivity().getSharedPreferences(Constant.TOTAL_AMOUNT, MODE_PRIVATE).edit();
-                            sessionManager.setData(SessionManager.KEY_ORDER_PRICE, String.valueOf(total1));
 
-                            offer_layout.setVisibility(View.GONE);
-                            editor.putString("Total", total_tv.getText().toString());
-                            editor.putString("Offer", tv_payment_offer.getText().toString());
-                            editor.apply();
+                            if (offer1 < amount1) {
+                                Toast.makeText(ctx, "ID " + id + " amount " + amount, Toast.LENGTH_SHORT).show();
+                                float total1 = amount1 - offer1;
+                                tv_payment_offer.setText("" + offer1);
+                                total_tv.setText("" + total1);
+                                SharedPreferences.Editor editor = getActivity().getSharedPreferences(Constant.TOTAL_AMOUNT, MODE_PRIVATE).edit();
+                                sessionManager.setData(SessionManager.KEY_ORDER_PRICE, String.valueOf(total1));
+
+                                offer_layout.setVisibility(View.GONE);
+                                editor.putString("Total", total_tv.getText().toString());
+                                editor.putString("Offer", tv_payment_offer.getText().toString());
+                                editor.apply();
+                            } else {
+                                Toast.makeText(ctx, "The offer is not valid for this product.", Toast.LENGTH_SHORT).show();
+                                tv_payment_offer.setText("0");
+                                total_tv.setText("" + amount1);
+                                SharedPreferences.Editor editor = getActivity().getSharedPreferences(Constant.TOTAL_AMOUNT, MODE_PRIVATE).edit();
+                                sessionManager.setData(SessionManager.KEY_ORDER_PRICE, String.valueOf(amount1));
+
+                                offer_layout.setVisibility(View.GONE);
+                                editor.putString("Total", total_tv.getText().toString());
+                                editor.putString("Offer", tv_payment_offer.getText().toString());
+                                editor.apply();
+                            }
+
                         } else {
                             Toast.makeText(ctx, "Expired Coupon ", Toast.LENGTH_SHORT).show();
                         }
-                    }  //Toast.makeText(ctx,"Invalid Coupon", Toast.LENGTH_SHORT).show();
+                    }/*else  {
+                        Toast.makeText(ctx,"Invalid Coupon", Toast.LENGTH_SHORT).show();
+                    }*/
 
                 } catch (JSONException e) {
                     e.printStackTrace();

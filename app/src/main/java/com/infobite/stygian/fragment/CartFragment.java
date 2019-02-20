@@ -5,8 +5,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,6 +34,7 @@ import com.infobite.stygian.model.ProductDetail;
 import com.infobite.stygian.util.AppPreference;
 import com.infobite.stygian.util.ConnectionDetector;
 import com.infobite.stygian.util.ConstantData;
+import com.infobite.stygian.util.GpsTracker;
 import com.infobite.stygian.util.SessionManager;
 import com.infobite.stygian.util.Utility;
 
@@ -57,7 +63,6 @@ public class CartFragment extends Fragment implements View.OnClickListener {
     private AdapterCart adapterCart;
 
     public CartFragment(Context ctx, Activity activity) {
-        this.ctx = ctx;
         this.activity = activity;
         helperManager = new HelperManager(ctx);
         sessionManager = new SessionManager(ctx);
@@ -66,6 +71,7 @@ public class CartFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_wishlist, container, false);
+        ctx = getActivity();
 
         MainActivity.tooltext_tv.setText(ConstantData.CART);
         SharedPreferences prefs = getActivity().getSharedPreferences(mypreference, MODE_PRIVATE);
@@ -92,7 +98,7 @@ public class CartFragment extends Fragment implements View.OnClickListener {
             cartProductList.addAll(databaseCart.getAllUrlList());
         }
 
-        adapterCart = new AdapterCart(cartProductList, ctx, CartFragment.this, this, databaseCart);
+        adapterCart = new AdapterCart(cartProductList, ctx, this, databaseCart);
         LinearLayoutManager layoutManager = new LinearLayoutManager(ctx);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
@@ -137,16 +143,7 @@ public class CartFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_wishlist_placeorder:
-                if (user_id.equals("0")) {
-                    startActivity(new Intent(ctx, LoginActivity.class));
-                    getActivity().finish();
-                } else {
-                    ArrayList<ProductDetail> cartlist = databaseCart.getAllUrlList();
-                    if (cartlist.size() > 0) {
-                        startActivity(new Intent(ctx, CheckOutActivity.class));
-                        getActivity().finish();
-                    }
-                }
+                locationPermission();
                 break;
             case R.id.iv_adpcart_minus:
                 minusItem(view);
@@ -211,5 +208,55 @@ public class CartFragment extends Fragment implements View.OnClickListener {
     private void onBackClick() {
         HomeFragment homeFragment = new HomeFragment();
         Utility.setFragment(homeFragment, ctx, ConstantData.HOME);
+    }
+
+    /***********************************************************/
+    /*
+     * Location permission
+     * */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 101) {
+            turnGPSOn();
+        }
+    }
+
+    private void locationPermission() {
+        try {
+            if (ContextCompat.checkSelfPermission(ctx, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
+                    PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(activity, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+            } else {
+                turnGPSOn();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void turnGPSOn() {
+        String provider = Settings.Secure.getString(ctx.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+        if (!provider.contains("gps")) { //if gps is disabled
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivity(intent);
+        } else {
+            GpsTracker gpsTracker = new GpsTracker(ctx);
+            placeThisOrder();
+        }
+    }
+
+    private void placeThisOrder() {
+        if (user_id.equals("0")) {
+            startActivity(new Intent(ctx, LoginActivity.class));
+            getActivity().finish();
+        } else {
+            ArrayList<ProductDetail> cartlist = databaseCart.getAllUrlList();
+            if (cartlist.size() > 0) {
+                startActivity(new Intent(ctx, CheckOutActivity.class));
+                getActivity().finish();
+            }
+        }
     }
 }

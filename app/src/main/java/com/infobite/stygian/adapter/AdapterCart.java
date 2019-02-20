@@ -2,7 +2,6 @@ package com.infobite.stygian.adapter;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,7 +23,6 @@ import com.androidnetworking.interfaces.StringRequestListener;
 import com.infobite.stygian.R;
 import com.infobite.stygian.database.DatabaseHandler;
 import com.infobite.stygian.database.HelperManager;
-import com.infobite.stygian.fragment.CartFragment;
 import com.infobite.stygian.model.ProductDetail;
 import com.infobite.stygian.util.Utility;
 import com.infobite.stygian.util.WebApi;
@@ -45,14 +43,13 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.MyViewHolder> 
     ArrayList<ProductDetail> list;
     Context context;
     HelperManager helperManager;
-    Fragment fragment;
     int proposition = 0;
     TextView select_col, select_size;
     RadioGroup color_radiogroup, size_radiogroup;
     private View.OnClickListener onClickListener;
     public DatabaseHandler databaseCart;
 
-    public AdapterCart(ArrayList<ProductDetail> list, Context context, CartFragment fragment, View.OnClickListener onClickListener,
+    public AdapterCart(ArrayList<ProductDetail> list, Context context, View.OnClickListener onClickListener,
                        DatabaseHandler databaseCart) {
         this.list = list;
         this.onClickListener = onClickListener;

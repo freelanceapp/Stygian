@@ -1,11 +1,9 @@
 package com.infobite.stygian.activity;
 
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -13,26 +11,18 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.infobite.stygian.R;
 import com.infobite.stygian.database.DatabaseHandler;
 import com.infobite.stygian.fragment.ShoppingFragment;
 import com.infobite.stygian.util.ConstantData;
 import com.infobite.stygian.util.Utility;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-
-import java.util.List;
 
 public class CheckOutActivity extends AppCompatActivity {
 
@@ -44,6 +34,7 @@ public class CheckOutActivity extends AppCompatActivity {
     private FrameLayout viewPager;
 
     public DatabaseHandler databaseCart;
+    private GoogleApiClient googleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,21 +59,7 @@ public class CheckOutActivity extends AppCompatActivity {
             }
         });
 
-        locationPermission();
-    }
-
-    private void locationPermission() {
-        try {
-            if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) !=
-                    PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                        101);
-            }else {
-                setFragment();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        setFragment();
     }
 
     private void setFragment() {
@@ -92,13 +69,7 @@ public class CheckOutActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 101) {
+        if (requestCode == 567) {
             setFragment();
         }
     }

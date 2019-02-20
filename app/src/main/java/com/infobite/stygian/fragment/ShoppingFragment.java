@@ -2,10 +2,12 @@ package com.infobite.stygian.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import com.infobite.stygian.R;
 import com.infobite.stygian.constant.Constant;
 import com.infobite.stygian.model.SaveAddress;
 import com.infobite.stygian.util.AppPreference;
+import com.infobite.stygian.util.AppProgressDialog;
 import com.infobite.stygian.util.ConnectionDetector;
 import com.infobite.stygian.util.ConstantData;
 import com.infobite.stygian.util.GpsTracker;
@@ -47,6 +50,7 @@ public class ShoppingFragment extends android.support.v4.app.Fragment implements
 
     double latitude; // latitude
     double longitude; // longitude
+    private Dialog dialog;
 
     @SuppressLint("ValidFragment")
     public ShoppingFragment(Context ctx) {
@@ -91,22 +95,41 @@ public class ShoppingFragment extends android.support.v4.app.Fragment implements
     }
 
     private void setData() {
+        dialog = new Dialog(ctx);
         String name = AppPreference.getStringPreference(ctx, Constant.USERNAME);
         name_et.setText(name);
 
+        getLatLong();
+    }
+
+    private void getLatLong() {
         GpsTracker gpsTracker = new GpsTracker(ctx);
         latitude = gpsTracker.getLatitude();
         longitude = gpsTracker.getLongitude();
+        getAddressList();
+    }
 
+    private void getAddressList() {
+        AppProgressDialog.show(dialog);
         Geocoder geocoder = new Geocoder(ctx, Locale.getDefault());
         try {
             List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
-            address_et.setText(addresses.get(0).getAddressLine(0));
-            city_et.setText(addresses.get(0).getLocality());
-            state_et.setText(addresses.get(0).getAdminArea());
-            country_et.setText(addresses.get(0).getCountryName());
-            zipcode_et.setText(addresses.get(0).getPostalCode());
-
+            if (addresses.size() > 0) {
+                AppProgressDialog.hide(dialog);
+                address_et.setText(addresses.get(0).getAddressLine(0));
+                city_et.setText(addresses.get(0).getLocality());
+                state_et.setText(addresses.get(0).getAdminArea());
+                country_et.setText(addresses.get(0).getCountryName());
+                zipcode_et.setText(addresses.get(0).getPostalCode());
+            } else {
+                AppProgressDialog.show(dialog);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getLatLong();
+                    }
+                }, 3000);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
